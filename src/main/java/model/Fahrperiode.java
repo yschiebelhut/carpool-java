@@ -2,13 +2,15 @@ package model;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Eine Fahrperiode bezeichnet die Menge der Fahrten gleicher Strecke im Zeitraum zwischen zwei Tankstopps.
  *
  * @author Yannik Schiebelhut
  */
-public class Fahrperiode extends Fahrt {
+public class Fahrperiode {
+	private UUID id;
 	/**
 	 * Liste der Fahrten in der Fahrperiode
 	 */
