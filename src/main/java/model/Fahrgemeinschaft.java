@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +17,8 @@ public class Fahrgemeinschaft {
 
 	public Fahrgemeinschaft(String name) {
 		this.name = name;
+		this.standardmitglieder = new ArrayList<>();
+		this.fahrperioden = new ArrayList<>();
 	}
 
 	public String getName() {

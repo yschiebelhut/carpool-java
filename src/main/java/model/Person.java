@@ -13,6 +13,7 @@ public class Person {
 	private String name;
 	private Adresse adresse;
 
+	// TODO: this would only be needed to load Person from memory, is this even needed when using GSON?
 	public Person(UUID id, String name, Adresse adresse) {
 		this.id = id;
 		this.name = name;

@@ -10,7 +10,7 @@ import java.util.UUID;
  * @author Yannik Schiebelhut
  */
 public class Fahrperiode {
-	private UUID id;
+	private final UUID id;
 	/**
 	 * Liste der Fahrten in der Fahrperiode
 	 */
@@ -56,6 +56,14 @@ public class Fahrperiode {
 	 */
 	private boolean abgeschlossen;
 
+	public Fahrperiode(Distanz distanz, double durchschnittsverbrauch, Geldbetrag fixbetrag, Geldbetrag spritpreis) {
+		this.id = UUID.randomUUID();
+		this.distanz = distanz;
+		this.durchschnittsverbrauch = durchschnittsverbrauch;
+		this.fixbetrag = fixbetrag;
+		this.spritpreis = spritpreis;
+		this.beginn = LocalDate.now();
+	}
 
 	public boolean isAbgeschlossen() {
 		return this.abgeschlossen;
@@ -67,5 +75,77 @@ public class Fahrperiode {
 	 */
 	public void abschliessen() {
 		this.abgeschlossen = true;
+	}
+
+	public UUID getId() {
+		return id;
+	}
+
+	public List<Fahrt> getFahrten() {
+		return fahrten;
+	}
+
+	public void addFahrt(Fahrt f) {
+		this.fahrten.add(f);
+	}
+
+	public List<Person> getSondermitglieder() {
+		return sondermitglieder;
+	}
+
+	public void addSondermitglied(Person p) {
+		this.sondermitglieder.add(p);
+	}
+
+	public Distanz getDistanz() {
+		return distanz;
+	}
+
+	public void setDistanz(Distanz distanz) {
+		this.distanz = distanz;
+	}
+
+	public double getDurchschnittsverbrauch() {
+		return durchschnittsverbrauch;
+	}
+
+	public void setDurchschnittsverbrauch(double durchschnittsverbrauch) {
+		this.durchschnittsverbrauch = durchschnittsverbrauch;
+	}
+
+	public Geldbetrag getFixbetrag() {
+		return fixbetrag;
+	}
+
+	public void setFixbetrag(Geldbetrag fixbetrag) {
+		this.fixbetrag = fixbetrag;
+	}
+
+	public Geldbetrag getSpritpreis() {
+		return spritpreis;
+	}
+
+	public void setSpritpreis(Geldbetrag spritpreis) {
+		this.spritpreis = spritpreis;
+	}
+
+	public LocalDate getBeginn() {
+		return beginn;
+	}
+
+	public void setBeginn(LocalDate beginn) {
+		this.beginn = beginn;
+	}
+
+	public LocalDate getEnde() {
+		return ende;
+	}
+
+	public void setEnde(LocalDate ende) {
+		this.ende = ende;
+	}
+
+	public void setAbgeschlossen(boolean abgeschlossen) {
+		this.abgeschlossen = abgeschlossen;
 	}
 }
