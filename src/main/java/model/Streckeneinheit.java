@@ -45,7 +45,7 @@ public abstract class Streckeneinheit {
 
 	private static final class Meter extends Streckeneinheit {
 		public Meter() {
-			super("Meter", "m", 1000);
+			super("Meter", "m", 1);
 		}
 	}
 
