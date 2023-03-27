@@ -6,16 +6,16 @@ import java.util.Objects;
  * @author Yannik Schiebelhut
  */
 public class Distanz {
-	private final double distanz;
+	private final double betrag;
 	private final Streckeneinheit einheit;
 
-	public Distanz(double distanz, Streckeneinheit einheit) {
-		this.distanz = distanz;
+	public Distanz(double betrag, Streckeneinheit einheit) {
+		this.betrag = betrag;
 		this.einheit = einheit;
 	}
 
-	public double getDistanz() {
-		return distanz;
+	public double getBetrag() {
+		return betrag;
 	}
 
 	public Streckeneinheit getEinheit() {
@@ -27,11 +27,15 @@ public class Distanz {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Distanz distanz1 = (Distanz) o;
-		return Double.compare(distanz1.distanz, distanz) == 0 && einheit.equals(distanz1.einheit);
+
+		double absoluteDistanzA = this.betrag * this.einheit.getFactor();
+		double absoluteDistanzB = distanz1.getBetrag() * distanz1.getEinheit().getFactor();
+		double genauigkeit = 1e-6;
+		return Math.abs(absoluteDistanzA - absoluteDistanzB) < genauigkeit;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(distanz, einheit);
+		return Objects.hash(betrag, einheit);
 	}
 }
