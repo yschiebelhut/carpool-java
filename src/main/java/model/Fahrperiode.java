@@ -148,4 +148,11 @@ public class Fahrperiode {
 	public void setAbgeschlossen(boolean abgeschlossen) {
 		this.abgeschlossen = abgeschlossen;
 	}
+
+	@Override
+	public String toString() {
+		return "Fahrperiode{" +
+				"id=" + id +
+				'}';
+	}
 }
