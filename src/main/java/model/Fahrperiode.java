@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,12 +15,12 @@ public class Fahrperiode {
 	/**
 	 * Liste der Fahrten in der Fahrperiode
 	 */
-	private List<Fahrt> fahrten;
+	private List<Fahrt> fahrten = new ArrayList<>();
 
 	/**
 	 * Mitglieder, die nur in einer bestimmten Fahrperiode mitfahren
 	 */
-	private List<Person> sondermitglieder;
+	private List<Person> sondermitglieder = new ArrayList<>();
 
 	/**
 	 * Distanz der einfachen Strecke (Fahrweg in eine Richtung)
