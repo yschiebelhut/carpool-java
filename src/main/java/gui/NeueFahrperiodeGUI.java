@@ -12,9 +12,11 @@ import java.awt.event.WindowEvent;
 public class NeueFahrperiodeGUI extends JFrame implements IPopup {
 
 	private final FahrgemeinschaftGUI parent;
+	private final Controller controller;
 
-	public NeueFahrperiodeGUI(FahrgemeinschaftGUI parent, Fahrgemeinschaft fahrgemeinschaft) throws HeadlessException {
+	public NeueFahrperiodeGUI(FahrgemeinschaftGUI parent, Controller controller, Fahrgemeinschaft fahrgemeinschaft) throws HeadlessException {
 		this.parent = parent;
+		this.controller = controller;
 		this.setTitle("Neue Fahrperiode");
 
 		this.add(new JLabel("Bitte nachfolgende Daten ausfüllen:"), BorderLayout.NORTH);

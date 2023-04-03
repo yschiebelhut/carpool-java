@@ -3,6 +3,7 @@ package model;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @author Yannik Schiebelhut
@@ -13,9 +14,9 @@ public class Fahrt {
 	/**
 	 * Mitglieder der Fahrgemeinschaft, die bei dieser Fahrt im Auto saßen
 	 */
-	private final List<Person> mitfahrer;
+	private final List<UUID> mitfahrer;
 
-	public Fahrt(LocalDate datum, List<Person> mitfahrer) {
+	public Fahrt(LocalDate datum, List<UUID> mitfahrer) {
 		this.datum = datum;
 		this.mitfahrer = mitfahrer;
 	}
@@ -24,7 +25,7 @@ public class Fahrt {
 		return datum;
 	}
 
-	public List<Person> getMitfahrer() {
+	public List<UUID> getMitfahrer() {
 		return mitfahrer;
 	}
 

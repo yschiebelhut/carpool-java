@@ -16,14 +16,16 @@ import java.awt.event.WindowEvent;
 public class FahrgemeinschaftGUI extends JFrame implements IPopup {
 
 	private final JFrame parent;
+	private final Controller controller;
 	private final Fahrgemeinschaft fahrgemeinschaft;
 
 	private JList<Fahrperiode> listPerioden;
 	private JScrollPane paneListPerioden;
 
-	public FahrgemeinschaftGUI(JFrame parent, Fahrgemeinschaft fahrgemeinschaft) throws HeadlessException {
+	public FahrgemeinschaftGUI(JFrame parent, Controller controller, Fahrgemeinschaft fahrgemeinschaft) throws HeadlessException {
 		super(fahrgemeinschaft.getName());
 		this.parent = parent;
+		this.controller = controller;
 		this.fahrgemeinschaft = fahrgemeinschaft;
 
 		listPerioden = new JList<>(this.fahrgemeinschaft.getFahrperioden().toArray(new Fahrperiode[0]));
@@ -39,10 +41,10 @@ public class FahrgemeinschaftGUI extends JFrame implements IPopup {
 						int index = list.locationToIndex(e.getPoint());
 						list.setSelectedIndex(index);
 						Fahrperiode selectedPeriode = (Fahrperiode) list.getSelectedValue();
-						System.out.printf("ausgewählter Index %d, Periode %s", index, selectedPeriode.getId());
+						System.out.printf("ausgewählter Index %d, Periode %s\n", index, selectedPeriode.getId());
 
 						// Öffne Detailansicht
-						launchFahrperiodeGUI(selectedPeriode);
+						starteFahrperiodeGUI(selectedPeriode);
 					}
 				}
 			}
@@ -55,12 +57,13 @@ public class FahrgemeinschaftGUI extends JFrame implements IPopup {
 		buttons.add(buttonMitglieder);
 		buttonMitglieder.addActionListener(e -> {
 			// TODO: Mitgliederverwaltung implementieren
+			MitgliederFahrgemeinschaftGUI mitgliederGUI = new MitgliederFahrgemeinschaftGUI(this, this.controller, this.fahrgemeinschaft);
 		});
 
 		JButton buttonNeuePeriode = new JButton("neue Periode");
 		buttons.add(buttonNeuePeriode);
 		buttonNeuePeriode.addActionListener(e -> {
-			NeueFahrperiodeGUI neuGUI = new NeueFahrperiodeGUI(this, fahrgemeinschaft);
+			NeueFahrperiodeGUI neuGUI = new NeueFahrperiodeGUI(this, this.controller, fahrgemeinschaft);
 			neuGUI.addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowClosing(WindowEvent e) {
@@ -80,8 +83,8 @@ public class FahrgemeinschaftGUI extends JFrame implements IPopup {
 	}
 
 
-	private void launchFahrperiodeGUI(Fahrperiode fahrperiode) {
-		FahrperiodeGUI periodeGUI = new FahrperiodeGUI(this, fahrperiode);
+	private void starteFahrperiodeGUI(Fahrperiode fahrperiode) {
+		FahrperiodeGUI periodeGUI = new FahrperiodeGUI(this, this.controller, fahrperiode);
 		periodeGUI.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

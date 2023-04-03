@@ -15,22 +15,24 @@ import java.util.List;
  */
 public class MainGUI extends JFrame {
 
-	private List<Fahrgemeinschaft> fahrgemeinschaften;
+	private final Controller controller;
 
-	public MainGUI() throws HeadlessException {
+
+	public MainGUI(Controller controller) throws HeadlessException {
+		this.controller = controller;
 		this.setTitle("Fahrgemeinschaftsverwaltung");
 
 		JPanel mainContainer = new JPanel();
 		mainContainer.setLayout(new BoxLayout(mainContainer, BoxLayout.Y_AXIS));
-		// TODO: Fahrgemeinschaften laden
-		this.fahrgemeinschaften = DataGenerator.getDemoData();
 
 		JPanel auswahl = new JPanel();
 		auswahl.setLayout(new BoxLayout(auswahl, BoxLayout.X_AXIS));
 
 		auswahl.add(new JLabel("Fahrgemeinschaft auswählen: "));
 
-		final JComboBox<Fahrgemeinschaft> dropDownMenue = new JComboBox<>(this.fahrgemeinschaften.toArray(new Fahrgemeinschaft[0]));
+//		Fahrgemeinschaft[] datenArray = this.controller.getFahrgemeinschaftRepository().gibAlle()
+		final JComboBox<Fahrgemeinschaft> dropDownMenue = new JComboBox<>();
+		this.controller.getFahrgemeinschaftRepository().gibAlle().forEach(dropDownMenue::addItem);
 		dropDownMenue.setMaximumSize(dropDownMenue.getPreferredSize());
 		dropDownMenue.setAlignmentX(Component.LEFT_ALIGNMENT);
 		auswahl.add(dropDownMenue);
@@ -39,12 +41,11 @@ public class MainGUI extends JFrame {
 		buttonFahrgemeinschaftAuswaehlen.addActionListener(e -> {
 			System.out.println(dropDownMenue.getSelectedItem() + ", " + dropDownMenue.getSelectedIndex());
 			Fahrgemeinschaft ausgewaehlteFahrgemeinschaft = (Fahrgemeinschaft) dropDownMenue.getSelectedItem();
-			FahrgemeinschaftGUI fahrGUI = new FahrgemeinschaftGUI(this, ausgewaehlteFahrgemeinschaft);
+			FahrgemeinschaftGUI fahrGUI = new FahrgemeinschaftGUI(this, this.controller, ausgewaehlteFahrgemeinschaft);
 			fahrGUI.addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowClosing(WindowEvent e) {
 					fahrGUI.getParentFrame().setEnabled(true);
-					super.windowClosing(e);
 				}
 			});
 			this.setEnabled(false);
@@ -58,7 +59,7 @@ public class MainGUI extends JFrame {
 			String name = JOptionPane.showInputDialog(this, "Bitte Namen für neue Fahrgemeinschaft eingeben:");
 			if (name.length() != 0) {
 				Fahrgemeinschaft tmp = new Fahrgemeinschaft(name);
-				this.fahrgemeinschaften.add(tmp);
+				this.controller.getFahrgemeinschaftRepository().speichere(tmp);
 				dropDownMenue.addItem(tmp);
 			}
 		});
@@ -69,11 +70,5 @@ public class MainGUI extends JFrame {
 		this.pack();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // TODO: save changes
 		this.setVisible(true);
-	}
-
-	public static void main(String[] args) {
-		// Fahrgemeinschaften aus JSON laden
-
-		new MainGUI();
 	}
 }

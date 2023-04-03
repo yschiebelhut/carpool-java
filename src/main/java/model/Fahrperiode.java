@@ -17,10 +17,10 @@ public class Fahrperiode {
 	 */
 	private List<Fahrt> fahrten = new ArrayList<>();
 
-	/**
-	 * Mitglieder, die nur in einer bestimmten Fahrperiode mitfahren
-	 */
-	private List<Person> sondermitglieder = new ArrayList<>();
+//	/**
+//	 * Mitglieder, die nur in einer bestimmten Fahrperiode mitfahren
+//	 */
+//	private List<Person> sondermitglieder = new ArrayList<>();
 
 	/**
 	 * Distanz der einfachen Strecke (Fahrweg in eine Richtung)
@@ -90,13 +90,13 @@ public class Fahrperiode {
 		this.fahrten.add(f);
 	}
 
-	public List<Person> getSondermitglieder() {
-		return sondermitglieder;
-	}
-
-	public void addSondermitglied(Person p) {
-		this.sondermitglieder.add(p);
-	}
+//	public List<Person> getSondermitglieder() {
+//		return sondermitglieder;
+//	}
+//
+//	public void addSondermitglied(Person p) {
+//		this.sondermitglieder.add(p);
+//	}
 
 	public Distanz getDistanz() {
 		return distanz;

@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Yannik Schiebelhut
@@ -13,8 +14,8 @@ public class Fahrgemeinschaft {
 	 * wird der Name einer Fahrgemeinschaft zusätzlich als ihr eindeutiger Identifier verwendet.
 	 */
 	private final String name;
-	private List<Person> standardmitglieder;
-	private List<Fahrperiode> fahrperioden;
+	private List<UUID> standardmitglieder = new ArrayList<>();
+	private List<Fahrperiode> fahrperioden = new ArrayList<>();
 
 	public Fahrgemeinschaft(String name) {
 		if (fahrgemeinschaften.stream().filter(fahrgemeinschaft -> fahrgemeinschaft.getName().equals(name)).count() != 0) {
@@ -30,7 +31,7 @@ public class Fahrgemeinschaft {
 		return name;
 	}
 
-	public List<Person> getStandardmitglieder() {
+	public List<UUID> getStandardmitglieder() {
 		return standardmitglieder;
 	}
 
@@ -38,8 +39,12 @@ public class Fahrgemeinschaft {
 		return fahrperioden;
 	}
 
-	public void addStandardmitglied(Person p) {
-		this.standardmitglieder.add(p);
+	public void addStandardmitglied(UUID personenID) {
+		this.standardmitglieder.add(personenID);
+	}
+
+	public void entferneStandardmitglied(UUID personenID) {
+		this.standardmitglieder.remove(personenID);
 	}
 
 	public void addFahrperiode(Fahrperiode f) {

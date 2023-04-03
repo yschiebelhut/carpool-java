@@ -12,6 +12,7 @@ public class Person {
 	private final UUID id;
 	private String name;
 	private Adresse adresse;
+	private String telegramChatId;
 
 	// TODO: this would only be needed to load Person from memory, is this even needed when using GSON?
 	public Person(UUID id, String name, Adresse adresse) {
@@ -44,5 +45,17 @@ public class Person {
 
 	public void setAdresse(Adresse adresse) {
 		this.adresse = adresse;
+	}
+
+	public String getTelegramChatId() {
+		return telegramChatId;
+	}
+
+	public void setTelegramChatId(String telegramChatId) {
+		this.telegramChatId = telegramChatId;
+	}
+
+	public String toString() {
+		return this.name;
 	}
 }

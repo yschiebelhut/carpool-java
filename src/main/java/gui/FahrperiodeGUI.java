@@ -11,13 +11,15 @@ import java.awt.*;
  */
 public class FahrperiodeGUI extends JFrame implements IPopup {
 	private final JFrame parent;
+	private final Controller controller;
 	private final Fahrperiode fahrperiode;
 
 	private JList<Fahrt> listFahrten;
 	private JScrollPane paneListFahrten;
 
-	public FahrperiodeGUI(JFrame parent, Fahrperiode fahrperiode) throws HeadlessException {
+	public FahrperiodeGUI(JFrame parent, Controller controller, Fahrperiode fahrperiode) throws HeadlessException {
 		this.parent = parent;
+		this.controller = controller;
 		this.fahrperiode = fahrperiode;
 		this.setTitle(String.format("Fahrperiode %s", fahrperiode.getId()));
 
@@ -64,12 +66,13 @@ public class FahrperiodeGUI extends JFrame implements IPopup {
 		this.add(paneListFahrten, BorderLayout.CENTER);
 
 		JPanel panelButtons = new JPanel();
-		panelButtons.setLayout(new GridLayout(4, 1, 5, 5));
-		JButton buttonSondermitgliederVerwalten = new JButton("Sondermitglieder verwalten");
-		panelButtons.add(buttonSondermitgliederVerwalten);
-		buttonSondermitgliederVerwalten.addActionListener(e -> {
-			// TODO: Verwaltung von Sondermitgliedern implementieren
-		});
+//		panelButtons.setLayout(new GridLayout(4, 1, 5, 5));
+		panelButtons.setLayout(new GridLayout(3, 1, 5, 5));
+//		JButton buttonSondermitgliederVerwalten = new JButton("Sondermitglieder verwalten");
+//		panelButtons.add(buttonSondermitgliederVerwalten);
+//		buttonSondermitgliederVerwalten.addActionListener(e -> {
+//			// TODO: Verwaltung von Sondermitgliedern implementieren
+//		});
 
 		JButton buttonNeueFahrt = new JButton("neue Fahrt");
 		panelButtons.add(buttonNeueFahrt);
