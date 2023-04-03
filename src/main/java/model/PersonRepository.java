@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -12,4 +13,6 @@ public interface PersonRepository {
 	Iterable<Person> gibAlle();
 
 	Iterable<Person> gibAlleAus(List<UUID> personenListe);
+
+	Optional<Person> finde(UUID personenId);
 }

@@ -17,12 +17,18 @@ public class Person {
 	// TODO: this would only be needed to load Person from memory, is this even needed when using GSON?
 	public Person(UUID id, String name, Adresse adresse) {
 		this.id = id;
+		if (name.equals("")) {
+			throw new RuntimeException("Der Name einer Person darf nicht leer sein.");
+		}
 		this.name = name;
 		this.adresse = adresse;
 	}
 
 	public Person(String name, Adresse adresse) {
 		this.id = UUID.randomUUID();
+		if (name.equals("")) {
+			throw new RuntimeException("Der Name einer Person darf nicht leer sein.");
+		}
 		this.name = name;
 		this.adresse = adresse;
 	}

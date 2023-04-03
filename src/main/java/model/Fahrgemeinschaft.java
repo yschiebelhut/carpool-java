@@ -47,8 +47,9 @@ public class Fahrgemeinschaft {
 		this.standardmitglieder.remove(personenID);
 	}
 
-	public void addFahrperiode(Fahrperiode f) {
-		this.fahrperioden.add(f);
+	public void addFahrperiode(Fahrperiode fahrperiode) {
+		this.fahrperioden.add(fahrperiode);
+		fahrperiode.setFahrgemeinschaft(this);
 	}
 
 	@Override

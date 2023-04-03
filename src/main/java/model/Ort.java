@@ -18,7 +18,7 @@ public class Ort {
 		if (plz.matches("^[0-9]{5}$")) {
 			this.plz = plz;
 		} else {
-			throw new RuntimeException("PLZ entspricht keinem erlaubten deutschen Format");
+			throw new RuntimeException("PLZ entspricht keinem erlaubten deutschen Format.");
 		}
 	}
 

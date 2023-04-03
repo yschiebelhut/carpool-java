@@ -14,7 +14,7 @@ public class Strasse {
 		if (hausnummer.matches("^[0-9]+[a-z]?$")) {
 		this.hausnummer = hausnummer;
 		} else {
-			throw new RuntimeException("Hausnummer entspricht keinem korrekten Format (z.B. 12, 314a");
+			throw new RuntimeException("Hausnummer entspricht keinem korrekten Format (z.B. 12, 314a).");
 		}
 	}
 

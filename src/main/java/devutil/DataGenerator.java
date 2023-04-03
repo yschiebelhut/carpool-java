@@ -59,7 +59,7 @@ public class DataGenerator {
 						new Ort("Karlsruhe", "12345")
 				)
 		);
-//		f1.addStandardmitglied(p1.getId());
+		f1.addStandardmitglied(p1.getId());
 		personRepository.speichere(p1);
 
 		Person p2 = new Person(
@@ -72,5 +72,14 @@ public class DataGenerator {
 		f1.addStandardmitglied(p2.getId());
 		personRepository.speichere(p2);
 
+		Person p3 = new Person(
+				"Alice",
+				new Adresse(
+						new Strasse("Sesamstraße", "12"),
+						new Ort("Karlsruhe","12345")
+				)
+		);
+		f1.addStandardmitglied(p3.getId());
+		personRepository.speichere(p3);
 	}
 }

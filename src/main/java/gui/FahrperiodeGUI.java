@@ -5,6 +5,8 @@ import model.Fahrt;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * @author Yannik Schiebelhut
@@ -61,9 +63,9 @@ public class FahrperiodeGUI extends JFrame implements IPopup {
 
 		this.add(panelInformationen, BorderLayout.WEST);
 
-		listFahrten = new JList<>(this.fahrperiode.getFahrten().toArray(new Fahrt[0]));
-		paneListFahrten = new JScrollPane(listFahrten);
-		this.add(paneListFahrten, BorderLayout.CENTER);
+		this.listFahrten = new JList<>(this.fahrperiode.getFahrten().toArray(new Fahrt[0]));
+		this.paneListFahrten = new JScrollPane(this.listFahrten);
+		this.add(this.paneListFahrten, BorderLayout.CENTER);
 
 		JPanel panelButtons = new JPanel();
 //		panelButtons.setLayout(new GridLayout(4, 1, 5, 5));
@@ -77,20 +79,34 @@ public class FahrperiodeGUI extends JFrame implements IPopup {
 		JButton buttonNeueFahrt = new JButton("neue Fahrt");
 		panelButtons.add(buttonNeueFahrt);
 		buttonNeueFahrt.addActionListener(e -> {
-			// TODO: Fahrt anlegen implementieren
+			NeueFahrtGUI neueFahrtGUI = new NeueFahrtGUI(this, this.controller, this.fahrperiode);
+			neueFahrtGUI.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+					neueFahrtGUI.getParentFrame().setEnabled(true);
+				}
+			});
+			this.setEnabled(false);
 		});
 
 		// TODO: Button davon abhängig gestalten, ob Periode abgeschlossen ist
+		if (this.fahrperiode.isAbgeschlossen()) {
+			// ergebnis anzeigen
+		}
 		JButton buttonAbschliessen = new JButton("abschließen");
 		panelButtons.add(buttonAbschliessen);
 		buttonAbschliessen.addActionListener(e -> {
-			// TODO: Periode Abschließen implementieren
+			this.fahrperiode.abschliessen(this.controller.getPersonRepository());
 		});
 
 		this.add(panelButtons, BorderLayout.EAST);
 
 		this.pack();
 		this.setVisible(true);
+	}
+
+	public void updateFahrtenListe() {
+		this.listFahrten.setListData(this.fahrperiode.getFahrten().toArray(new Fahrt[0]));
 	}
 
 	@Override

@@ -89,7 +89,7 @@ public class MitgliederFahrgemeinschaftGUI extends JFrame implements IPopup {
 		this.setVisible(true);
 	}
 
-	private void updateListeSonstigerPersonen() {
+	public void updateListeSonstigerPersonen() {
 		List<Person> allePersonen = new ArrayList<>();
 		this.controller.getPersonRepository().gibAlle().forEach(allePersonen::add);
 		List<Person> mitglieder = new ArrayList<>();

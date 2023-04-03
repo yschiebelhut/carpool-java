@@ -3,10 +3,7 @@ package speicher;
 import model.Person;
 import model.PersonRepository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Yannik Schiebelhut
@@ -29,5 +26,10 @@ public class JsonPersonRepository implements PersonRepository {
 	@Override
 	public Iterable<Person> gibAlleAus(List<UUID> personenListe) {
 		return this.personen.values().stream().filter(person -> personenListe.contains(person.getId())).toList();
+	}
+
+	@Override
+	public Optional<Person> finde(UUID personenId) {
+		return Optional.ofNullable(personen.get(personenId));
 	}
 }

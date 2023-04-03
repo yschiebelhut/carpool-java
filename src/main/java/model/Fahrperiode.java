@@ -1,9 +1,7 @@
 package model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Eine Fahrperiode bezeichnet die Menge der Fahrten gleicher Strecke im Zeitraum zwischen zwei Tankstopps.
@@ -12,6 +10,9 @@ import java.util.UUID;
  */
 public class Fahrperiode {
 	private final UUID id;
+
+	private Fahrgemeinschaft fahrgemeinschaft;
+
 	/**
 	 * Liste der Fahrten in der Fahrperiode
 	 */
@@ -74,12 +75,41 @@ public class Fahrperiode {
 	 * schließt eine Fahrperiode ab
 	 * abgeschlossene Fahrperioden können nicht wieder geöffnet werden
 	 */
-	public void abschliessen() {
+	public void abschliessen(PersonRepository repository) {
 		this.abgeschlossen = true;
+		// TODO: Telegram-Nachricht hier senden
+		var ergebnis = this.ergebnis();
+		ergebnis.keySet().forEach(uuid -> {
+
+		});
+	}
+
+	public Map<UUID, Geldbetrag> ergebnis() {
+		Map<UUID, Geldbetrag> zwischenergebnis = new HashMap<>();
+		this.fahrten.forEach(fahrt -> {
+			//((fixbetrag * kilometer) + (l/100km * preis/l * distanzinkm/100)) / anzahlMitfahrer
+			int betragProMitfahrer =
+					(int) (((this.fixbetrag.getBetrag() * this.distanz.getBetrag()) + (this.durchschnittsverbrauch * this.spritpreis.getBetrag() * this.distanz.getBetrag())) / fahrt.getMitfahrer().size());
+			fahrt.getMitfahrer().forEach(uuid -> {
+				Geldbetrag aktuellerBetrag = zwischenergebnis.getOrDefault(uuid, new Geldbetrag(0, Waehrung.EuroCent));
+				Geldbetrag neuerBetrag = new Geldbetrag(aktuellerBetrag.getBetrag() + betragProMitfahrer,
+						Waehrung.EuroCent);
+				zwischenergebnis.put(uuid, neuerBetrag);
+			});
+		});
+		return zwischenergebnis;
 	}
 
 	public UUID getId() {
 		return id;
+	}
+
+	public Fahrgemeinschaft getFahrgemeinschaft() {
+		return fahrgemeinschaft;
+	}
+
+	public void setFahrgemeinschaft(Fahrgemeinschaft fahrgemeinschaft) {
+		this.fahrgemeinschaft = fahrgemeinschaft;
 	}
 
 	public List<Fahrt> getFahrten() {
