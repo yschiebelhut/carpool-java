@@ -60,7 +60,8 @@ public class DataGenerator {
 				new Adresse(
 						new Strasse("Sesamstraße", "12"),
 						new Ort("Karlsruhe", "12345")
-				)
+				),
+				"228799678"
 		);
 		f1.addStandardmitglied(p1.getId());
 		personRepository.speichere(p1);
@@ -70,7 +71,8 @@ public class DataGenerator {
 				new Adresse(
 						new Strasse("Sesamstraße", "12"),
 						new Ort("Karlsruhe","12345")
-				)
+				),
+				"228799678"
 		);
 		f1.addStandardmitglied(p2.getId());
 		personRepository.speichere(p2);
@@ -80,7 +82,8 @@ public class DataGenerator {
 				new Adresse(
 						new Strasse("Sesamstraße", "12"),
 						new Ort("Karlsruhe", "12345")
-				)
+				),
+				"228799678"
 		);
 		f1.addStandardmitglied(p3.getId());
 		personRepository.speichere(p3);

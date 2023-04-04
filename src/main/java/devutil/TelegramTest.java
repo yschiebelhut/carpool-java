@@ -27,7 +27,8 @@ public class TelegramTest {
 						new Adresse(
 								new Strasse("Sesamstraße", "12"),
 								new Ort("Karlsruhe", "12345")
-						)
+						),
+						"228799678"
 				)
 		);
 		personen.add(
@@ -36,7 +37,8 @@ public class TelegramTest {
 						new Adresse(
 								new Strasse("Sesamstraße", "12"),
 								new Ort("Karlsruhe","12345")
-						)
+						),
+						"228799678"
 				)
 		);
 

@@ -73,7 +73,7 @@ public class FahrperiodeGUI extends JFrame implements IPopup {
 //		JButton buttonSondermitgliederVerwalten = new JButton("Sondermitglieder verwalten");
 //		panelButtons.add(buttonSondermitgliederVerwalten);
 //		buttonSondermitgliederVerwalten.addActionListener(e -> {
-//			// TODO: Verwaltung von Sondermitgliedern implementieren
+//			// auf eine Implementierung von Sondermitgliedern in einer Fahrperiode wird verzichtet
 //		});
 
 		JButton buttonNeueFahrt = new JButton("neue Fahrt");
@@ -92,12 +92,21 @@ public class FahrperiodeGUI extends JFrame implements IPopup {
 		// TODO: Button davon abhängig gestalten, ob Periode abgeschlossen ist
 		if (this.fahrperiode.isAbgeschlossen()) {
 			// ergebnis anzeigen
+			JButton buttonErgebnisAnzeigen = new JButton("Ergebnis anzeigen");
+			panelButtons.add(buttonErgebnisAnzeigen);
+			buttonErgebnisAnzeigen.addActionListener(e -> {
+				// TODO: ErgebnisGUI implementierung und aufrufen
+			});
+		} else {
+			JButton buttonAbschliessen = new JButton("abschließen");
+			panelButtons.add(buttonAbschliessen);
+			buttonAbschliessen.addActionListener(e -> {
+				this.fahrperiode.abschliessen(this.controller.getPersonRepository());
+				// ErgebnisGUI anzeigen
+				// Telegram Nachricht versenden
+				// FahrperiodenGUI neu laden
+			});
 		}
-		JButton buttonAbschliessen = new JButton("abschließen");
-		panelButtons.add(buttonAbschliessen);
-		buttonAbschliessen.addActionListener(e -> {
-			this.fahrperiode.abschliessen(this.controller.getPersonRepository());
-		});
 
 		this.add(panelButtons, BorderLayout.EAST);
 

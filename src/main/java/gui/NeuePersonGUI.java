@@ -21,6 +21,7 @@ public class NeuePersonGUI extends JFrame implements IPopup {
 	private final JTextArea areaHausnummer = new JTextArea("12");
 	private final JTextArea areaOrt = new JTextArea("Karlsruhe");
 	private final JTextArea areaPlz = new JTextArea("12345");
+	private final JTextArea areaTelegramChatId = new JTextArea("228799678");
 
 	public NeuePersonGUI(MitgliederFahrgemeinschaftGUI parent, Controller controller) throws HeadlessException {
 		this.parent = parent;
@@ -29,7 +30,7 @@ public class NeuePersonGUI extends JFrame implements IPopup {
 		this.setTitle("Neue Person hinzufügen");
 
 		JPanel panelEingabefelder = new JPanel();
-		panelEingabefelder.setLayout(new GridLayout(5, 2, 5, 5));
+		panelEingabefelder.setLayout(new GridLayout(6, 2, 5, 5));
 
 		panelEingabefelder.add(new JLabel("Name:"));
 		panelEingabefelder.add(areaName);
@@ -46,6 +47,9 @@ public class NeuePersonGUI extends JFrame implements IPopup {
 		panelEingabefelder.add(new JLabel("Postleitzahl"));
 		panelEingabefelder.add(areaPlz);
 
+		panelEingabefelder.add(new JLabel("Telegram Chat ID"));
+		panelEingabefelder.add(areaTelegramChatId);
+
 		this.add(panelEingabefelder, BorderLayout.CENTER);
 
 		JButton buttonPersonAnlegen = new JButton("Person anlegen");
@@ -57,7 +61,8 @@ public class NeuePersonGUI extends JFrame implements IPopup {
 						new Adresse(
 								new Strasse(areaStrasse.getText(), areaHausnummer.getText()),
 								new Ort(areaOrt.getText(), areaPlz.getText())
-						)
+						),
+						areaTelegramChatId.getText()
 				);
 				this.controller.getPersonRepository().speichere(neuePerson);
 				this.parent.updateMitgliederListe();

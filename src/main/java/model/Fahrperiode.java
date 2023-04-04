@@ -1,5 +1,9 @@
 package model;
 
+import devutil.TelegramTest;
+import integration.PayPalLinkBuilder;
+import integration.Telegram;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -79,13 +83,14 @@ public class Fahrperiode {
 	public void abschliessen(PersonRepository repository) {
 		this.abgeschlossen = true;
 		// TODO: Telegram-Nachricht hier senden
-		var ergebnis = this.ergebnis();
+		var ergebnis = this.getErgebnis();
 		ergebnis.keySet().forEach(uuid -> {
-
+			Person p = repository.finde(uuid).orElseThrow();
+			Telegram.send(p.getTelegramChatId(), PayPalLinkBuilder.getLinkFor(ergebnis.get(uuid)));
 		});
 	}
 
-	public Map<UUID, Geldbetrag> ergebnis() {
+	public Map<UUID, Geldbetrag> getErgebnis() {
 		Map<UUID, Geldbetrag> zwischenergebnis = new HashMap<>();
 		this.fahrten.forEach(fahrt -> {
 			//((fixbetrag * kilometer) + (l/100km * preis/l * distanzinkm/100)) / anzahlMitfahrer
