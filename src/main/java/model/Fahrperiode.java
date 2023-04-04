@@ -11,7 +11,7 @@ import java.util.*;
 public class Fahrperiode {
 	private final UUID id;
 
-	private Fahrgemeinschaft fahrgemeinschaft;
+	private transient Fahrgemeinschaft fahrgemeinschaft;
 
 	/**
 	 * Liste der Fahrten in der Fahrperiode
@@ -65,6 +65,7 @@ public class Fahrperiode {
 		this.fixbetrag = fixbetrag;
 		this.spritpreis = spritpreis;
 		this.beginn = LocalDate.now();
+		this.ende = LocalDate.MAX;
 	}
 
 	public boolean isAbgeschlossen() {

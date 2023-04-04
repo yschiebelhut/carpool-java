@@ -1,7 +1,10 @@
 package devutil;
 
 import model.*;
+import speicher.JsonFahrgemeinschaftRepository;
+import speicher.JsonPersonRepository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,10 +79,26 @@ public class DataGenerator {
 				"Alice",
 				new Adresse(
 						new Strasse("Sesamstraße", "12"),
-						new Ort("Karlsruhe","12345")
+						new Ort("Karlsruhe", "12345")
 				)
 		);
 		f1.addStandardmitglied(p3.getId());
 		personRepository.speichere(p3);
+	}
+
+	public static void generateDemoJson() {
+		JsonPersonRepository personRepository = new JsonPersonRepository();
+		JsonFahrgemeinschaftRepository fahrgemeinschaftRepository = new JsonFahrgemeinschaftRepository();
+		generateDemoData(personRepository, fahrgemeinschaftRepository);
+		try {
+			personRepository.schreibenNachStandardpfad();
+			fahrgemeinschaftRepository.schreibenNachStandardpfad();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static void main(String[] args) {
+		generateDemoJson();
 	}
 }
