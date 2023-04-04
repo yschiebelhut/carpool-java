@@ -1,6 +1,5 @@
 package model;
 
-import devutil.TelegramTest;
 import integration.PayPalLinkBuilder;
 import integration.Telegram;
 
@@ -95,7 +94,7 @@ public class Fahrperiode {
 		this.fahrten.forEach(fahrt -> {
 			//((fixbetrag * kilometer) + (l/100km * preis/l * distanzinkm/100)) / anzahlMitfahrer
 			int betragProMitfahrer =
-					(int) (((this.fixbetrag.getBetrag() * this.distanz.getBetrag()) + (this.durchschnittsverbrauch * this.spritpreis.getBetrag() * this.distanz.getBetrag())) / fahrt.getMitfahrer().size());
+					(int) (((this.fixbetrag.getBetrag() * this.distanz.getBetrag()) + (this.durchschnittsverbrauch * this.spritpreis.getBetrag() * this.distanz.getBetrag() / 100)) / (fahrt.getMitfahrer().size() + 1));
 			fahrt.getMitfahrer().forEach(uuid -> {
 				Geldbetrag aktuellerBetrag = zwischenergebnis.getOrDefault(uuid, new Geldbetrag(0, Waehrung.EuroCent));
 				Geldbetrag neuerBetrag = new Geldbetrag(aktuellerBetrag.getBetrag() + betragProMitfahrer,
