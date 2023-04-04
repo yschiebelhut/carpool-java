@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.LocalDate;
 
 /**
  * @author Yannik Schiebelhut
@@ -34,7 +35,7 @@ public class FahrperiodeGUI extends JFrame implements IPopup {
 
 		panelInformationen.add(new JLabel("Ende:"));
 		JLabel areaEnde;
-		if (fahrperiode.getEnde() != null) {
+		if (!fahrperiode.getEnde().equals(LocalDate.MAX)) {
 			areaEnde = new JLabel(fahrperiode.getEnde().toString());
 		} else {
 			areaEnde = new JLabel("-");
@@ -89,24 +90,33 @@ public class FahrperiodeGUI extends JFrame implements IPopup {
 			this.setEnabled(false);
 		});
 
-		// TODO: Button davon abhängig gestalten, ob Periode abgeschlossen ist
+		JButton buttonAbschliessen = new JButton("abschließen");
+		panelButtons.add(buttonAbschliessen);
+		buttonAbschliessen.addActionListener(e -> {
+			this.fahrperiode.abschliessen(this.controller.getPersonRepository());
+			buttonAbschliessen.setEnabled(false);
+		});
 		if (this.fahrperiode.isAbgeschlossen()) {
-			// ergebnis anzeigen
-			JButton buttonErgebnisAnzeigen = new JButton("Ergebnis anzeigen");
-			panelButtons.add(buttonErgebnisAnzeigen);
-			buttonErgebnisAnzeigen.addActionListener(e -> {
-				// TODO: ErgebnisGUI implementierung und aufrufen
-			});
-		} else {
-			JButton buttonAbschliessen = new JButton("abschließen");
-			panelButtons.add(buttonAbschliessen);
-			buttonAbschliessen.addActionListener(e -> {
-				this.fahrperiode.abschliessen(this.controller.getPersonRepository());
-				// ErgebnisGUI anzeigen
-				// Telegram Nachricht versenden
-				// FahrperiodenGUI neu laden
-			});
+			buttonAbschliessen.setEnabled(false);
 		}
+
+
+		JButton buttonErgebnisAnzeigen = new JButton("Ergebnis anzeigen");
+		panelButtons.add(buttonErgebnisAnzeigen);
+		buttonErgebnisAnzeigen.addActionListener(e -> {
+			if (this.fahrperiode.getFahrten().size() == 0) {
+				JOptionPane.showMessageDialog(this, "Bitte zunächst eine Fahrt anlegen.");
+			} else {
+				ErgebnisGUI ergebnisGUI = new ErgebnisGUI(this, this.controller, this.fahrperiode.getErgebnis());
+				ergebnisGUI.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent e) {
+						ergebnisGUI.getParentFrame().setEnabled(true);
+					}
+				});
+				this.setEnabled(false);
+			}
+		});
 
 		this.add(panelButtons, BorderLayout.EAST);
 

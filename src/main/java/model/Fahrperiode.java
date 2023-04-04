@@ -81,7 +81,7 @@ public class Fahrperiode {
 	 */
 	public void abschliessen(PersonRepository repository) {
 		this.abgeschlossen = true;
-		// TODO: Telegram-Nachricht hier senden
+		this.ende = LocalDate.now();
 		var ergebnis = this.getErgebnis();
 		ergebnis.keySet().forEach(uuid -> {
 			Person p = repository.finde(uuid).orElseThrow();
