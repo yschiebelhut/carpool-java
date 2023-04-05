@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * @author Yannik Schiebelhut
  */
-public class Distanz {
+public final class Distanz {
 	private final double betrag;
 	private final Streckeneinheit einheit;
 

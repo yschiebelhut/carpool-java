@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * @author Yannik Schiebelhut
  */
-public class Fahrt {
+public final class Fahrt {
 	private final LocalDate datum;
 
 	/**

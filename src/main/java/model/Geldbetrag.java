@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * @author Yannik Schiebelhut
  */
-public class Geldbetrag {
+public final class Geldbetrag {
 	private final int betrag;
 	private final Waehrung waehrung;
 

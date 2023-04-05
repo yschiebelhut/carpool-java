@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * @author Yannik Schiebelhut
  */
-public class Strasse {
+public final class Strasse {
 	private final String name;
 	private final String hausnummer;
 

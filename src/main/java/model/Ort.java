@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * @author Yannik Schiebelhut
  */
-public class Ort {
+public final class Ort {
 	private final String ortsname;
 
 	/**
