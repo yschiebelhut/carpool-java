@@ -1,1 +1,30 @@
 \chapter{Beschreibung des Programms}
+Im Rahmen eines dualen Studiums an der DHBW bietet es sich an, für die Praxisphasen mit anderen Studenten Fahrgemeinschaften zum Betrieb zu bilden.
+Diese Fahrgemeinschaften haben zwar einen festen Rahmen an Mitgliedern, jedoch haben diese alle verschiedene und wechselnde Termine, wodurch sich der Anwendungsfall für ein Programm ergeben hat, welches den Fahrer einer Fahrgemeinschaft dabei unterstützt, mit wenig Aufwand eine für alle Beteiligten faire Abrechnung zu erstellen.
+
+\section{Funktionalität}
+\label{sec:funktionalität}
+Das Programm richtet sich an den Besitzer eines Autos, weiterhin als Fahrer bezeichnet.
+Der Fahrer kann mehrere \enquote{Fahrgemeinschaften}, also Gruppen von Personen, definieren.
+Dabei kann eine Person in mehreren Fahrgemeinschaften sein und eine Fahrgemeinschaft hat in der Regel mehrere Mitfahrer.
+
+Innerhalb einer Fahrgemeinschaft werden Fahrperioden angelegt.
+Eine Fahrperiode bezeichnet dabei die Menge aller Fahrten zwischen zwei Tankstopps.
+Innerhalb einer Fahrperiode haben alle Fahrten dieselbe Strecke, denselben Spritverbrauch und denselben Spritpreis.
+Des Weiteren kann ein Fixbetrag definiert werden, um etwa Verschleißkosten des Fahrzeugs auf die Mitfahrer umzulegen.
+In einer Fahrperiode wiederum kann eine beliebige Menge an Fahrten angelegt werden.
+Für jede dieser Fahrten wird ausgewählt, welche Mitglieder der Fahrgemeinschaft im Fahrzeug saßen.
+Wenn wieder getankt wird, wird die Fahrperiode im System abgeschlossen.
+Dabei wird der Anteil an den entstandenen Fahrkosten für jeden Mitfahrer innerhalb der Fahrperiode ermittelt.
+Für diesen Anteil wird ein PayPal-Link generiert und der jeweiligen Person über Telegram zugesandt, um auch den Bezahlvorgang angenehm zu gestalten.
+
+Eine Person wiederum hat einen Namen, eine Adresse und eine Telegram-Chat-ID, über die diese Person zu kontaktieren ist.
+
+\section{Technologien}
+Umgesetzt ist das Programm in Java, wobei Maven als Build-System verwendet wird.
+Die Datenhaltung erfolgt lokal im JSON-Format mittels der externen GSON-Bibliothek.
+Das Programm verfügt über eine grafische Nutzeroberfläche, welche mit Java Swing erstellt ist.
+Weiterhin wird auf die Telegram API zugegriffen.
+Hierfür ist allerdings im Rahmen einer einfachen Proof of Concept Implementierung keine externe Bibliothek vonnöten.
+
+Der Quellcode wird in einem Git-Repository verwaltet, welches auf GitHub unter \url{https://github.com/yschiebelhut/carpool-java} zu finden ist.
