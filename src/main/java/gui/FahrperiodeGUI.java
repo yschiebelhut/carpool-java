@@ -89,11 +89,15 @@ public class FahrperiodeGUI extends JFrame implements IPopup {
 			});
 			this.setEnabled(false);
 		});
+		if (this.fahrperiode.isAbgeschlossen()) {
+			buttonNeueFahrt.setEnabled(false);
+		}
 
 		JButton buttonAbschliessen = new JButton("abschließen");
 		panelButtons.add(buttonAbschliessen);
 		buttonAbschliessen.addActionListener(e -> {
 			this.fahrperiode.abschliessen(this.controller.getPersonRepository());
+			buttonNeueFahrt.setEnabled(false);
 			buttonAbschliessen.setEnabled(false);
 		});
 		if (this.fahrperiode.isAbgeschlossen()) {

@@ -4,6 +4,7 @@ import model.Fahrperiode;
 import model.Fahrt;
 import model.Person;
 
+import javax.naming.OperationNotSupportedException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -57,7 +58,11 @@ public class NeueFahrtGUI extends JFrame implements IPopup {
 				JOptionPane.showMessageDialog(this, "Es müssen Mitfahrer ausgewählt werden.");
 			} else {
 				Fahrt neueFahrt = new Fahrt(LocalDate.now(), mitfahrer);
-				this.fahrperiode.addFahrt(neueFahrt);
+				try {
+					this.fahrperiode.addFahrt(neueFahrt);
+				} catch (OperationNotSupportedException ex) {
+					JOptionPane.showMessageDialog(this, ex.getMessage());
+				}
 				this.parent.updateFahrtenListe();
 				this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 			}

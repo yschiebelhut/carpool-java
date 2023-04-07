@@ -3,6 +3,7 @@ package model;
 import integration.PayPalLinkBuilder;
 import integration.Telegram;
 
+import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -121,8 +122,12 @@ public class Fahrperiode {
 		return fahrten;
 	}
 
-	public void addFahrt(Fahrt f) {
-		this.fahrten.add(f);
+	public void addFahrt(Fahrt f) throws OperationNotSupportedException {
+		if (!this.abgeschlossen) {
+			this.fahrten.add(f);
+		} else {
+			throw new OperationNotSupportedException("Hinzufügen einer Fahrt zu einer abgeschlossenen Fahrperiode ist nicht möglich.");
+		}
 	}
 
 //	public List<Person> getSondermitglieder() {
