@@ -7,7 +7,6 @@ import model.Person;
 import javax.naming.OperationNotSupportedException;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 import java.util.ArrayList;

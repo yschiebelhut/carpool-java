@@ -1,14 +1,11 @@
 package gui;
 
-import devutil.DataGenerator;
 import model.Fahrgemeinschaft;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Yannik Schiebelhut

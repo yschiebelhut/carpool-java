@@ -6,7 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="carpool-java" />
+        <module name="3-carpool-java-domain" />
+        <module name="0-carpool-java-plugin-json" />
+        <module name="2-carpool-java-application" />
+        <module name="0-carpool-java-plugin-main" />
+        <module name="0-carpool-java-plugin-ui" />
       </profile>
     </annotationProcessing>
   </component>

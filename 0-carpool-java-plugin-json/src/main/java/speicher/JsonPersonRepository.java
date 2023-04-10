@@ -1,6 +1,5 @@
 package speicher;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import model.Person;
 import model.PersonRepository;

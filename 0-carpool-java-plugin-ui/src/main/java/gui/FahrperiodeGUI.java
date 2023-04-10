@@ -2,6 +2,7 @@ package gui;
 
 import model.Fahrperiode;
 import model.Fahrt;
+import services.FahrperiodenAbschliessService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -95,8 +96,8 @@ public class FahrperiodeGUI extends JFrame implements IPopup {
 
 		JButton buttonAbschliessen = new JButton("abschließen");
 		panelButtons.add(buttonAbschliessen);
+		buttonAbschliessen.addActionListener(new FahrperiodenAbschliessService(this.fahrperiode, this.controller.getPersonRepository()));
 		buttonAbschliessen.addActionListener(e -> {
-			this.fahrperiode.abschliessen(this.controller.getPersonRepository());
 			buttonNeueFahrt.setEnabled(false);
 			buttonAbschliessen.setEnabled(false);
 		});

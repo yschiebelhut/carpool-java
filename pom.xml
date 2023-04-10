@@ -7,6 +7,14 @@
     <groupId>de.schiebelhut</groupId>
     <artifactId>carpool-java</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>0-carpool-java-plugin-main</module>
+        <module>0-carpool-java-plugin-ui</module>
+        <module>0-carpool-java-plugin-json</module>
+        <module>2-carpool-java-application</module>
+        <module>3-carpool-java-domain</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>

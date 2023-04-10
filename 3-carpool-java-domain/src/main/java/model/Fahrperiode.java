@@ -80,14 +80,9 @@ public class Fahrperiode {
 	 * schließt eine Fahrperiode ab
 	 * abgeschlossene Fahrperioden können nicht wieder geöffnet werden
 	 */
-	public void abschliessen(PersonRepository repository) {
+	public void abschliessen() {
 		this.abgeschlossen = true;
 		this.ende = LocalDate.now();
-		var ergebnis = this.getErgebnis();
-		ergebnis.keySet().forEach(uuid -> {
-			Person p = repository.finde(uuid).orElseThrow();
-			Telegram.send(p.getTelegramChatId(), PayPalLinkBuilder.getLinkFor(ergebnis.get(uuid)));
-		});
 	}
 
 	public Map<UUID, Geldbetrag> getErgebnis() {
