@@ -1,4 +1,4 @@
-package integration;
+package paypal;
 
 import model.Geldbetrag;
 import model.Waehrung;

@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>2-carpool-java-application</artifactId>
+    <artifactId>0-carpool-java-integration</artifactId>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
@@ -19,19 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>de.schiebelhut</groupId>
-            <artifactId>0-carpool-java-integration</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.schiebelhut</groupId>
             <artifactId>3-carpool-java-domain</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.schiebelhut</groupId>
-            <artifactId>0-carpool-java-integration</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

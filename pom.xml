@@ -14,6 +14,7 @@
         <module>0-carpool-java-plugin-json</module>
         <module>2-carpool-java-application</module>
         <module>3-carpool-java-domain</module>
+        <module>0-carpool-java-integration</module>
     </modules>
 
     <properties>

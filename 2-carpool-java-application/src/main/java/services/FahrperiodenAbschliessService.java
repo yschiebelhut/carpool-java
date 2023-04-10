@@ -1,10 +1,10 @@
 package services;
 
-import integration.PayPalLinkBuilder;
-import integration.Telegram;
 import model.Fahrperiode;
 import model.Person;
 import model.PersonRepository;
+import paypal.PayPalLinkBuilder;
+import telegram.Telegram;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

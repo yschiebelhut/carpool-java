@@ -1,8 +1,5 @@
 package model;
 
-import integration.PayPalLinkBuilder;
-import integration.Telegram;
-
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.util.*;

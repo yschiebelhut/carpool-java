@@ -9,6 +9,7 @@
         <module name="3-carpool-java-domain" />
         <module name="0-carpool-java-plugin-json" />
         <module name="2-carpool-java-application" />
+        <module name="0-carpool-java-integration" />
         <module name="0-carpool-java-plugin-main" />
         <module name="0-carpool-java-plugin-ui" />
       </profile>
