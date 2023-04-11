@@ -27,7 +27,9 @@ public class FahrperiodenAbschliessService implements ActionListener {
 		var ergebnis = this.fahrperiode.getErgebnis();
 		ergebnis.keySet().forEach(uuid -> {
 			Person p = this.repository.finde(uuid).orElseThrow();
-			Telegram.send(p.getTelegramChatId(), PayPalLinkBuilder.getLinkFor(ergebnis.get(uuid)));
+			Telegram client = new Telegram();
+			PayPalLinkBuilder payPalLinkBuilder = new PayPalLinkBuilder();
+			client.send(p.getTelegramChatId(), payPalLinkBuilder.getLinkFor(ergebnis.get(uuid)));
 		});
 		// TODO: Telegram nach außen in Plugin-Schicht für Dependency Inversion
 	}

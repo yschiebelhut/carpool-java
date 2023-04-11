@@ -7,7 +7,7 @@ import model.Waehrung;
  * @author Yannik Schiebelhut
  */
 public class PayPalLinkBuilder {
-	public static String getLinkFor(Geldbetrag geldbetrag) {
+	public String getLinkFor(Geldbetrag geldbetrag) {
 		String paypalUsername = System.getenv("PAYPAL_USERNAME");
 		if (paypalUsername == null || paypalUsername.equals("")) {
 			throw new RuntimeException("Umgebungsvariable PAYPAL_USERNAME muss gesetzt sein.");

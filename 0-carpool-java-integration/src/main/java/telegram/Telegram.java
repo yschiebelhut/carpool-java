@@ -12,7 +12,7 @@ import java.net.http.HttpResponse;
  * @author Yannik Schiebelhut
  */
 public class Telegram {
-	public static void send(String chatId, String message) {
+	public void send(String chatId, String message) {
 		String telegramToken = System.getenv("TELEGRAM_TOKEN");
 		if (telegramToken == null || telegramToken.equals("")) {
 			throw new RuntimeException("Umgebungsvariable TELEGRAM_TOKEN muss gesetzt sein.");
