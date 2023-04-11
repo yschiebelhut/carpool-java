@@ -2,7 +2,9 @@ package gui;
 
 import model.Fahrperiode;
 import model.Fahrt;
+import paypal.PayPalLinkBuilder;
 import services.FahrperiodenAbschliessService;
+import telegram.Telegram;
 
 import javax.swing.*;
 import java.awt.*;
@@ -96,7 +98,10 @@ public class FahrperiodeGUI extends JFrame implements IPopup {
 
 		JButton buttonAbschliessen = new JButton("abschließen");
 		panelButtons.add(buttonAbschliessen);
-		buttonAbschliessen.addActionListener(new FahrperiodenAbschliessService(this.fahrperiode, this.controller.getPersonRepository()));
+		Telegram client = new Telegram();
+		PayPalLinkBuilder payPalLinkBuilder = new PayPalLinkBuilder();
+		buttonAbschliessen.addActionListener(new FahrperiodenAbschliessService(this.fahrperiode,
+				this.controller.getPersonRepository(), client, payPalLinkBuilder));
 		buttonAbschliessen.addActionListener(e -> {
 			buttonNeueFahrt.setEnabled(false);
 			buttonAbschliessen.setEnabled(false);

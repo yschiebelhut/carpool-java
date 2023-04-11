@@ -1,12 +1,12 @@
 package paypal;
 
 import model.Geldbetrag;
-import model.Waehrung;
+import services.IPayPalLinkBuilder;
 
 /**
  * @author Yannik Schiebelhut
  */
-public class PayPalLinkBuilder {
+public class PayPalLinkBuilder implements IPayPalLinkBuilder {
 	public String getLinkFor(Geldbetrag geldbetrag) {
 		String paypalUsername = System.getenv("PAYPAL_USERNAME");
 		if (paypalUsername == null || paypalUsername.equals("")) {

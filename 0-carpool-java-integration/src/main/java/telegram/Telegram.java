@@ -2,6 +2,7 @@ package telegram;
 
 import model.Geldbetrag;
 import model.Waehrung;
+import services.TelegramClient;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -11,7 +12,7 @@ import java.net.http.HttpResponse;
 /**
  * @author Yannik Schiebelhut
  */
-public class Telegram {
+public class Telegram implements TelegramClient {
 	public void send(String chatId, String message) {
 		String telegramToken = System.getenv("TELEGRAM_TOKEN");
 		if (telegramToken == null || telegramToken.equals("")) {
