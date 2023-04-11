@@ -1,0 +1,64 @@
+\chapter{Clean Architecture}
+In diesem Kapitel wird die Software so in verschiedene Teilmodule restrukturiert, dass sie den Grundsätzen der in der Vorlesung vermittelten Clean Architecture genügt.
+
+\section{Unterteilung in Schichten}
+\subsection{Schicht 4: Abstraction Code}
+\emph{Abstraction Code} stellt domänenübergreifendes Wissen dar (wie etwa mathematische Konzepte, grundlegende Algorithmen oder Datenstrukturen).
+Im Kontext der vorliegenden Software wird diese Schicht nicht benötigt.
+Mathematische Konzepte, die zur Berechnung der Fahrtkosten notwendig sind, sowie alle in der Software verwendeten Datenstrukturen, finden sich bereits in den Java-Bibliotheken.
+
+\subsection{Schicht 3: Domain}
+In dieser Schicht wird der zentrale Domain-Code untergebracht.
+In diesem Falle sind dies die in \autoref{fig:domainmodel} gezeigten und im vorherigen Kapitel beschriebenen Entitäten und Value Objects (implementiert im Modul \code{3-carpool-java-domain}).
+Sie gehören zur elementaren Business Logik der Domaine und sollten sich möglichst selten, in der Regel eigentlich nie ändern.
+Lediglich das in der Abbildung dargestellte \emph{Integration} Package wird in die Schicht 0 verschoben.
+Zwar gehört gemäß Beschreibung des Domainen-Experten das Senden von PayPal-Links via Telegram als elementarer Bestandteil zum Programm, jedoch sollte die konkrete Implementierung der Interaktion mit diesen Diensten nicht als Teil des Domainen-Codes erfolgen, da sich diese logisch abgrenzt und Änderungen im Laufe der Zeit sehr wahrscheinlich sind.
+
+\subsection{Schicht 2: Application}
+Die Application-Schicht ist gemäß der Vorlesung für Aggregat-übergreifendes Verhalten verantwortlich.
+In Falle der vorliegenden Software liegt dieser Anwendungsfall beim Versenden der PayPal-Links über Telegram vor.
+Hierbei werden die Rechnungsdaten einer Fahrperiode ausgelesen.
+Diese enthalten jedoch nur ein Mapping einer UUID zu einem Geldbetrag.
+Zum Versenden der Nachrichten müssen diese UUIDs noch zu Personen aufgelöst werden, aus welchen anschließend die Telegram-Chat-ID extrahiert werden kann.
+Umgesetzt ist diese Schicht im Modul \code{2-carpool-java-application}.
+
+\subsection{Schicht 1: Adapters}
+Die Adapters-Schicht soll in der Clean Architecture dazu dienen, Aufrufe und Daten der Plugin-Schicht an die innere Schicht zu vermitteln.
+Hier finden zum Beispiel Aufgaben wie Formatkonvertierungen und das Erstellen von Render-Modellen statt.
+Da jedoch in der Plugin-Schicht dieser Anwendung keine komplexe Umsetzungslogik erfolgt und ein Erstellen dieser Schicht keinen unmittelbaren Wert besitzt (wie auf Folie 49 der Clean Architecture beschrieben), wird auf das Erstellen dieser Schicht verzichtet.
+Es ist allerdings darauf hinzuweisen, dass ein Erstellen dieser Schicht theoretisch empfehlenswert wäre, vor allem in der Hinsicht, dass die aktuell mit Java-Swing erstellte Benutzeroberfläche nicht gerade schön ist und gegebenenfalls zukünftig durch eine neuere und bessere Oberfläche ersetzt werden könnte.
+Eine solche Oberfläche kann ohne die Adapters-Schicht nicht auf visuelle Verarbeitungsroutinen der aktuellen GUI zugreifen und müssten neu angefertigt werden, was wiederum mit einem Mehraufwand verknüpft wäre.
+
+\subsection{Schicht 0: Plugins}
+Die Plugin-Schicht stellt die äußerste Schicht der Anwendung dar.
+Code in dieser Schicht ist am kurzlebigsten.
+Hier werden für die aktuelle Anwendung 4 Module erstellt: \code{0-carpool-java-plugins-main}, \code{0-carpool-java-plugins-ui}, \code{0-carpool-java-plugins-json} und \code{0-carpool-java-plugins-integration}.
+
+\subsubsection{Main-Plugin}
+Dieses Plugin enthält die Main-Methode und somit den Einstiegspunkt in die Applikation.
+Hier ist keinerlei Anwendungslogik enthalten, sondern es erfolgt lediglich eine Koordinierung der anderen Plugins.
+Die Main-Methode delegiert die Datenverwaltung an das JSON-Plugin und initialisiert die vom GUI-Plugin implementierte Benutzeroberfläche.
+Weiterhin wird ein Runtime-Hook definiert, der dafür sorgt, dass beim Beenden der Anwendung die aktuellen Daten gespeichert werden.
+Das Speichern wird somit vom Lebenszyklus der GUI entkoppelt.
+
+\subsubsection{GUI-Plugin}
+Hier findet die Implementierung der GUI statt.
+Da die Benutzeroberfläche Pure Fabrication darstellt und häufige Änderungen und Wechsel zu erwarten sind, wird diese in der Plugin-Schicht implementiert.
+
+\subsubsection{JSON-Plugin}
+Die Software setzt aktuell auf eine JSON-basierte Datenhaltung.
+Zu diesem Zwecke wird die externe GSON-Library verwendet.
+Weil eine externe Library eingebunden wird und die Form der Datenhaltung sehr einfach veränderlich sein sollte, wird die Datenhaltung als Plugin implementiert.
+Dabei werden zwei Repository-Klassen erstellt, die die in der Domain-Schicht definierten Interfaces implementieren.
+Für das Speichern gewisser Datentypen wie beispielsweise \code{LocalDate} aus der Java-Standardlibrary werden von GSON Typadapter benötigt.
+Theoretisch wären diese der Adapters-Schicht zuzuordnen.
+Allerdings sind die enthaltenen Mappings speziell auf die Verwendung mit GSON zuzuschneiden.
+Weiterhin müssen die Adapter Interfaces implementieren, die von der Library definiert werden.
+Aus diesen Gründen ist es nicht sinnvoll, die Typadapter in die Adapter-Schicht auszulagern.
+
+\subsubsection{Integration-Plugin}
+In diesem Plugin werden die PayPal-Link-Generierung sowie die Interaktion mit Telegram implementiert.
+Beides bezieht sich auf Schnittstellen von externen Systemen, von denen perse schon ein häufiger Wandel zu erwarten ist, weshalb diese Klassen auf jeden Fall in der Pluin-Schicht zu implementieren sind.
+
+\section{Dependency Inversion}
+Als zentrale Regel der Clean Architecture (Dependency Rule) sollten Abhängigkeiten nur von außen nach innen zeigen.
