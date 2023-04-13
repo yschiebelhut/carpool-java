@@ -62,3 +62,18 @@ Beides bezieht sich auf Schnittstellen von externen Systemen, von denen perse sc
 
 \section{Dependency Inversion}
 Als zentrale Regel der Clean Architecture (Dependency Rule) sollten Abhängigkeiten nur von außen nach innen zeigen.
+Bis auf eine Ausnahme ist diese Regel nach der Umstrukturierung bereits erfüllt.
+
+Die Klasse \code{FahrperiodenAbschliessService} aus \code{2-carpool-java-application} hat jedoch eine Abhängigkeit auf die Klassen \code{Telegram} und \code{PayPalLinkBuilder} aus der Schicht \code{0-carpool-java-plugins-integration}.
+Um diese Abhängigkeit zu beseitigen wird eine Dependency Inversion durchgeführt.
+
+Hierfür werden zunächst in \code{2-carpool-java-application} zwei Interfaces (\code{TelegramClient} und \code{IPayPalLinkBuilder}) definiert.
+Diese Interfaces deklarieren die Methoden der beiden Klassen aus Schicht 0.
+Anschließend wird eine Abhängigkeit definiert, die vom Plugin zur Applikationsschicht zeigt.
+Anschließend wird die Implementierung der beiden betroffenen Klassen in Schicht 0 so verändert, dass das jeweils korrespondierte Interface implementiert wird.
+Weiterhin muss der \code{FahrperiodenAbschliessService} so modifiziert werden, dass die Abhängigkeiten per Dependency Injection übergeben werden.
+Der Konstruktoraufruf ist entsprechend anzupassen.
+
+(Es ist darauf hinzuweisen, dass dadurch im vorliegenden Fall eine neue Abhängigkeit des GUI-Plugins auf das Integrations-Plugin entsteht.
+Theoretisch wäre es optimal, auch diese zu vermeiden.
+Da diese neue Abhängigkeit jedoch die Dependency Rule nicht verletzt und der Aufwand zur Vermeidung unverhältnismäßig hoch wäre, wird auf eine Umsetzung verzichtet.)
