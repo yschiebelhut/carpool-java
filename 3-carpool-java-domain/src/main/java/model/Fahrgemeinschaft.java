@@ -18,7 +18,7 @@ public class Fahrgemeinschaft {
 	private List<Fahrperiode> fahrperioden = new ArrayList<>();
 
 	public Fahrgemeinschaft(String name) {
-		if (fahrgemeinschaften.stream().filter(fahrgemeinschaft -> fahrgemeinschaft.getName().equals(name)).count() != 0) {
+		if (fahrgemeinschaften.stream().anyMatch(fahrgemeinschaft -> fahrgemeinschaft.getName().equals(name))) {
 			throw new RuntimeException("Fahrgemeinschaft mit diesem Namen ist bereits registriert");
 		}
 		this.name = name;
