@@ -13,7 +13,6 @@ import java.util.*;
  */
 public class JsonPersonRepository implements PersonRepository {
 	private final static String STANDARDPFAD = "personen.json";
-	// TODO: JSON Speicherung ergänzen
 
 	private final Map<UUID, Person> personen = new HashMap<>();
 

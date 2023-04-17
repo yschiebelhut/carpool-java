@@ -13,6 +13,16 @@ import java.net.http.HttpResponse;
  * @author Yannik Schiebelhut
  */
 public class Telegram implements TelegramClient {
+	private final HttpClient client;
+
+	public Telegram(HttpClient client) {
+		this.client = client;
+	}
+
+	public Telegram() {
+		this.client = HttpClient.newHttpClient();
+	}
+
 	public void send(String chatId, String message) {
 		String telegramToken = System.getenv("TELEGRAM_TOKEN");
 		if (telegramToken == null || telegramToken.equals("")) {
@@ -20,7 +30,6 @@ public class Telegram implements TelegramClient {
 		}
 
 		try {
-			HttpClient client = HttpClient.newHttpClient();
 			String uri = String.format("https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s", telegramToken,
 					chatId, message);
 			HttpRequest request = HttpRequest.newBuilder().uri(new URI(uri)).build();

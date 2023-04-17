@@ -34,4 +34,9 @@ public final class Geldbetrag {
 	public int hashCode() {
 		return Objects.hash(betrag, waehrung);
 	}
+
+	@Override
+	public String toString() {
+		return this.betrag + " " + this.waehrung.getName();
+	}
 }

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -55,5 +56,18 @@ public class Person {
 
 	public String toString() {
 		return this.name;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Person person = (Person) o;
+		return Objects.equals(id, person.id) && Objects.equals(name, person.name) && Objects.equals(adresse, person.adresse) && Objects.equals(telegramChatId, person.telegramChatId);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name, adresse, telegramChatId);
 	}
 }
