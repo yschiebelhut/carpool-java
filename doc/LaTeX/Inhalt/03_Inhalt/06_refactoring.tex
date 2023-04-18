@@ -18,16 +18,10 @@ Das Anzeigen neuer Elemente oder das Aktualisieren der angezeigten Daten ist mei
 Auch in der Klasse \code{Telegram} im Integrations-Plugin findet sich ein Code-Smell, der sich trotz kompakter Erscheinung der Methode am ehesten als \emph{Long Method} einordnen lässt.
 Hauptproblem ist hier, dass sehr viele verschiedene Aktionen ausgeführt werden, die thematisch nicht zusammenhängen, was die Lesbarkeit stark beeinträchtigt.
 
-
-
-\begin{itemize}
-    \item Duplicated Code
-    \item Long Method
-    \item Large Class
-    \item Shotgun Surgery (wenn eine einfache Änderung an sehr vielen Stellen gemacht werden muss)
-    \item Switch Statement
-    \item Code Comments
-\end{itemize}
+Eine weitere lange und unübersichtliche Methode findet sich in der Klasse \href{https://github.com/yschiebelhut/carpool-java/blob/379784c1ffe99a3f4fc15f393e12661479e6a4bf/3-carpool-java-domain/src/main/java/model/Fahrperiode.java#L85}{\code{Fahrperiode}}.
+In dieser Periode werden die Kosten für jeden Mitfahrer innerhalb einer Fahrperiode berechnet.
+In der Folge enthält diese Methode mehrere ineinander geschachtelte Schleifenaufrufe, die über alle Fahrten in der Periode und über alle jeweils beteiligten Mitfahrer iterieren.
+Auch diese Methode ist kaum lesbar und bedarf dringend einer Verbesserung.
 
 \section{Refactorings anwenden}
 \begin{itemize}
