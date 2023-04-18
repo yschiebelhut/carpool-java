@@ -1,0 +1,52 @@
+\chapter{Refactoring}
+
+\section{Code Smells identifizieren}
+Prägnante Fälle von Shotgun Surgery und Large Classes sind im Code des Fahrtkostenrechners praktisch nicht vorhanden, was auch darin begründet liegt, dass das Projekt relativ klein ist.
+Switch Statements wurden in der Codebasis nicht verwendet und mit Kommentaren war der bearbeitende Student auch sparsam.
+Nichtsdestotrotz finden sich im Code-Substrat einige Code Smells, welche größtenteils aus Duplicated Code und Long Methods bestehen.
+
+Insbesondere im GUI Plugin finden sich sehr viele \emph{Code-Dopplungen}.
+Die wohl prominenteste dieser Dopplungen entsteht durch die \href{https://github.com/yschiebelhut/carpool-java/blob/6a206569e676ad1bf55d68ba3e64408bae83e73f/0-carpool-java-plugin-ui/src/main/java/gui/MainGUI.java#L42}{Erzeugung von Popups}.
+Diese wurde so umgesetzt, dass das GUI-Fenster, aus dem das Popup hervorgeht, gesperrt wird, wenn das Popup gestartet wird.
+Wird das Popup geschlossen, so wird auch das Ursprungsfenster wieder freigegeben.
+
+\emph{Long Methods} finden sich praktisch in allen GUI-Klassen abgesehen vom Controller.
+Alle GUI-Klassen folgen grob demselben schematischen Aufbau, bei dem sämtliche Elemente im Konstruktur der jeweiligen Ansicht aufgebaut werden.
+Das macht zum einen den Konstruktor sehr unübersichtlich, andererseits sind die Ansichten auch sehr unflexible gegenüber nachträglichen Änderungen.
+Das Anzeigen neuer Elemente oder das Aktualisieren der angezeigten Daten ist meist nur über einen erneuten Aufruf des Konstruktors möglich.
+
+Auch in der Klasse \code{Telegram} im Integrations-Plugin findet sich ein Code-Smell, der sich trotz kompakter Erscheinung der Methode am ehesten als \emph{Long Method} einordnen lässt.
+Hauptproblem ist hier, dass sehr viele verschiedene Aktionen ausgeführt werden, die thematisch nicht zusammenhängen, was die Lesbarkeit stark beeinträchtigt.
+
+
+
+\begin{itemize}
+    \item Duplicated Code
+    \item Long Method
+    \item Large Class
+    \item Shotgun Surgery (wenn eine einfache Änderung an sehr vielen Stellen gemacht werden muss)
+    \item Switch Statement
+    \item Code Comments
+\end{itemize}
+
+\section{Refactorings anwenden}
+\begin{itemize}
+    \item Extract Method
+    \item Rename Method
+    \item Replace Temp with Query
+    \item Replace Conditional with Polymorphism
+    \item Replace Error Code with Exception
+    \item Replace Inheritance with Delegation
+\end{itemize}
+
+
+Telegram: Long Method > Method extraction, Replace Temp with Query
+
+ErgebnisGUI: Long Method
+FahrgemeinschaftGUI: Long Method
+
+Duplicated Code (PopUp):
+MainGUI
+FahrgemeinschaftGUI
+FahrperiodeGUI
+MitgleiderFahrgemeinschaftGUI
