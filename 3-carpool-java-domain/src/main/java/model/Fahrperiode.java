@@ -3,6 +3,7 @@ package model;
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Eine Fahrperiode bezeichnet die Menge der Fahrten gleicher Strecke im Zeitraum zwischen zwei Tankstopps.
@@ -84,18 +85,24 @@ public class Fahrperiode {
 
 	public Map<UUID, Geldbetrag> getErgebnis() {
 		Map<UUID, Geldbetrag> zwischenergebnis = new HashMap<>();
-		this.fahrten.forEach(fahrt -> {
+		this.fahrten.forEach(ergaenzeFahrtZu(zwischenergebnis));
+		return zwischenergebnis;
+	}
+
+	private Consumer<Fahrt> ergaenzeFahrtZu(Map<UUID, Geldbetrag> zwischenergebnis) {
+		return fahrt -> {
 			//((fixbetrag * kilometer) + (l/100km * preis/l * distanzinkm/100)) / anzahlMitfahrer
-			int betragProMitfahrer =
-					(int) (((this.fixbetrag.getBetrag() * this.distanz.getBetrag()) + (this.durchschnittsverbrauch * this.spritpreis.getBetrag() * this.distanz.getBetrag() / 100)) / (fahrt.getMitfahrer().size() + 1));
 			fahrt.getMitfahrer().forEach(uuid -> {
 				Geldbetrag aktuellerBetrag = zwischenergebnis.getOrDefault(uuid, new Geldbetrag(0, Waehrung.EuroCent));
-				Geldbetrag neuerBetrag = new Geldbetrag(aktuellerBetrag.getBetrag() + betragProMitfahrer,
+				Geldbetrag neuerBetrag = new Geldbetrag(aktuellerBetrag.getBetrag() + betragProMitfahrer(fahrt),
 						Waehrung.EuroCent);
 				zwischenergebnis.put(uuid, neuerBetrag);
 			});
-		});
-		return zwischenergebnis;
+		};
+	}
+
+	private int betragProMitfahrer(Fahrt fahrt) {
+		return (int) (((this.fixbetrag.getBetrag() * this.distanz.getBetrag()) + (this.durchschnittsverbrauch * this.spritpreis.getBetrag() * this.distanz.getBetrag() / 100)) / (fahrt.getMitfahrer().size() + 1));
 	}
 
 	public UUID getId() {
