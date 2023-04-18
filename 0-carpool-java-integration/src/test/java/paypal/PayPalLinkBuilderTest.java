@@ -20,6 +20,9 @@ public class PayPalLinkBuilderTest {
 		assertEquals(link, "https://paypal.me/testuser/1.53EUR");
 	}
 
+	/**
+	 * BUG: 1 Cent wird als 10 Cent interpretiert
+	 */
 	@Test
 	public void test_generierePayPalLinkFuer1Cent() {
 		Geldbetrag betrag = new Geldbetrag(1, Waehrung.EuroCent);
