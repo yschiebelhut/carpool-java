@@ -6,6 +6,8 @@ import model.PersonRepository;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 /**
  * @author Yannik Schiebelhut
@@ -31,7 +33,11 @@ public class FahrperiodenAbschliessService implements ActionListener {
 		var ergebnis = this.fahrperiode.getErgebnis();
 		ergebnis.keySet().forEach(uuid -> {
 			Person p = this.repository.finde(uuid).orElseThrow();
-			this.client.send(p.getTelegramChatId(), this.payPalLinkBuilder.getLinkFor(ergebnis.get(uuid)));
+			try {
+				this.client.send(p.getTelegramChatId(), this.payPalLinkBuilder.getLinkFor(ergebnis.get(uuid)));
+			} catch (URISyntaxException | IOException | InterruptedException ex) {
+				throw new RuntimeException(ex);
+			}
 		});
 	}
 }

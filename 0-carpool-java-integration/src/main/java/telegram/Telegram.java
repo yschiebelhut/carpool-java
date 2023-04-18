@@ -1,10 +1,10 @@
 package telegram;
 
-import model.Geldbetrag;
-import model.Waehrung;
 import services.TelegramClient;
 
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -23,19 +23,24 @@ public class Telegram implements TelegramClient {
 		this.client = HttpClient.newHttpClient();
 	}
 
-	public void send(String chatId, String message) {
+	private String telegramToken() {
 		String telegramToken = System.getenv("TELEGRAM_TOKEN");
 		if (telegramToken == null || telegramToken.equals("")) {
 			throw new RuntimeException("Umgebungsvariable TELEGRAM_TOKEN muss gesetzt sein.");
 		}
+		return telegramToken;
+	}
 
-		try {
-			String uri = String.format("https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s", telegramToken,
-					chatId, message);
-			HttpRequest request = HttpRequest.newBuilder().uri(new URI(uri)).build();
-			client.send(request, HttpResponse.BodyHandlers.ofString());
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+	public void send(String chatId, String message) throws URISyntaxException, IOException, InterruptedException {
+		client.send(request(chatId, message), HttpResponse.BodyHandlers.ofString());
+	}
+
+	private HttpRequest request(String chatId, String message) throws URISyntaxException {
+		return HttpRequest.newBuilder().uri(requestUriFor(chatId, message)).build();
+	}
+
+	private URI requestUriFor(String chatId, String message) throws URISyntaxException {
+		return new URI(String.format("https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s", telegramToken(),
+				chatId, message));
 	}
 }

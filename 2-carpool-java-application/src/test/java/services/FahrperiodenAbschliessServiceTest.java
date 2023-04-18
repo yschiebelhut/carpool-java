@@ -4,6 +4,8 @@ import model.*;
 import org.junit.jupiter.api.Test;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -16,7 +18,7 @@ import static org.easymock.EasyMock.*;
  */
 public class FahrperiodenAbschliessServiceTest {
 	@Test
-	public void test_actionPerformed() {
+	public void test_actionPerformed() throws URISyntaxException, IOException, InterruptedException {
 		Person p1 = new Person("Peter", null, "1");
 		Person p2 = new Person("Silie", null, "2");
 		Person p3 = new Person("Alice", null, "3");
