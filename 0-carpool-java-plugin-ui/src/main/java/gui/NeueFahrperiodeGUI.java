@@ -9,9 +9,9 @@ import java.awt.event.WindowEvent;
 /**
  * @author Yannik Schiebelhut
  */
-public class NeueFahrperiodeGUI extends JFrame implements IPopup {
-
+public class NeueFahrperiodeGUI extends JFrame {
 	private final FahrgemeinschaftGUI parent;
+
 	private final Controller controller;
 
 	public NeueFahrperiodeGUI(FahrgemeinschaftGUI parent, Controller controller, Fahrgemeinschaft fahrgemeinschaft) throws HeadlessException {
@@ -59,10 +59,5 @@ public class NeueFahrperiodeGUI extends JFrame implements IPopup {
 
 		this.pack();
 		this.setVisible(true);
-	}
-
-	@Override
-	public JFrame getParentFrame() {
-		return this.parent;
 	}
 }

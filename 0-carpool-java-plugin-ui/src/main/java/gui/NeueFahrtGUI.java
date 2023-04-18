@@ -16,7 +16,7 @@ import java.util.UUID;
 /**
  * @author Yannik Schiebelhut
  */
-public class NeueFahrtGUI extends JFrame implements IPopup {
+public class NeueFahrtGUI extends JFrame {
 	private final FahrperiodeGUI parent;
 	private final Controller controller;
 	private final Fahrperiode fahrperiode;
@@ -69,10 +69,5 @@ public class NeueFahrtGUI extends JFrame implements IPopup {
 
 		this.pack();
 		this.setVisible(true);
-	}
-
-	@Override
-	public JFrame getParentFrame() {
-		return this.parent;
 	}
 }

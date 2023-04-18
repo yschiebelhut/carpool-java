@@ -13,9 +13,7 @@ import java.util.List;
 /**
  * @author Yannik Schiebelhut
  */
-public class MitgliederFahrgemeinschaftGUI extends JFrame implements IPopup {
-
-	private final JFrame parent;
+public class MitgliederFahrgemeinschaftGUI extends JFrame {
 	private final Controller controller;
 	private final Fahrgemeinschaft fahrgemeinschaft;
 
@@ -23,7 +21,6 @@ public class MitgliederFahrgemeinschaftGUI extends JFrame implements IPopup {
 	private JList<Person> listSonstigePersonen = new JList<>();
 
 	public MitgliederFahrgemeinschaftGUI(JFrame parent, Controller controller, Fahrgemeinschaft fahrgemeinschaft) throws HeadlessException {
-		this.parent = parent;
 		this.controller = controller;
 		this.fahrgemeinschaft = fahrgemeinschaft;
 
@@ -73,13 +70,7 @@ public class MitgliederFahrgemeinschaftGUI extends JFrame implements IPopup {
 		panelButtons.add(buttonNeuePerson);
 		buttonNeuePerson.addActionListener(e -> {
 			NeuePersonGUI neuePersonGUI = new NeuePersonGUI(this, this.controller);
-			neuePersonGUI.addWindowListener(new WindowAdapter() {
-				@Override
-				public void windowClosing(WindowEvent e) {
-					neuePersonGUI.getParentFrame().setEnabled(true);
-				}
-			});
-			this.setEnabled(false);
+			Controller.lock(this, neuePersonGUI);
 		});
 
 		this.add(panelButtons, BorderLayout.EAST);
@@ -96,11 +87,6 @@ public class MitgliederFahrgemeinschaftGUI extends JFrame implements IPopup {
 		this.controller.getPersonRepository().gibAlleAus(this.fahrgemeinschaft.getStandardmitglieder()).forEach(mitglieder::add);
 		allePersonen.removeAll(mitglieder);
 		listSonstigePersonen.setListData(allePersonen.toArray(new Person[0]));
-	}
-
-	@Override
-	public JFrame getParentFrame() {
-		return null;
 	}
 
 	public void updateMitgliederListe() {

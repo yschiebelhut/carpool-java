@@ -8,23 +8,19 @@ import telegram.Telegram;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 
 /**
  * @author Yannik Schiebelhut
  */
-public class FahrperiodeGUI extends JFrame implements IPopup {
-	private final JFrame parent;
+public class FahrperiodeGUI extends JFrame {
 	private final Controller controller;
 	private final Fahrperiode fahrperiode;
 
 	private JList<Fahrt> listFahrten;
 	private JScrollPane paneListFahrten;
 
-	public FahrperiodeGUI(JFrame parent, Controller controller, Fahrperiode fahrperiode) throws HeadlessException {
-		this.parent = parent;
+	public FahrperiodeGUI(Controller controller, Fahrperiode fahrperiode) throws HeadlessException {
 		this.controller = controller;
 		this.fahrperiode = fahrperiode;
 		this.setTitle(String.format("Fahrperiode %s", fahrperiode.getId()));
@@ -84,13 +80,7 @@ public class FahrperiodeGUI extends JFrame implements IPopup {
 		panelButtons.add(buttonNeueFahrt);
 		buttonNeueFahrt.addActionListener(e -> {
 			NeueFahrtGUI neueFahrtGUI = new NeueFahrtGUI(this, this.controller, this.fahrperiode);
-			neueFahrtGUI.addWindowListener(new WindowAdapter() {
-				@Override
-				public void windowClosing(WindowEvent e) {
-					neueFahrtGUI.getParentFrame().setEnabled(true);
-				}
-			});
-			this.setEnabled(false);
+			Controller.lock(this, neueFahrtGUI);
 		});
 		if (this.fahrperiode.isAbgeschlossen()) {
 			buttonNeueFahrt.setEnabled(false);
@@ -117,14 +107,8 @@ public class FahrperiodeGUI extends JFrame implements IPopup {
 			if (this.fahrperiode.getFahrten().size() == 0) {
 				JOptionPane.showMessageDialog(this, "Bitte zunächst eine Fahrt anlegen.");
 			} else {
-				ErgebnisGUI ergebnisGUI = new ErgebnisGUI(this, this.controller, this.fahrperiode.getErgebnis());
-				ergebnisGUI.addWindowListener(new WindowAdapter() {
-					@Override
-					public void windowClosing(WindowEvent e) {
-						ergebnisGUI.getParentFrame().setEnabled(true);
-					}
-				});
-				this.setEnabled(false);
+				ErgebnisGUI ergebnisGUI = new ErgebnisGUI(this.controller, this.fahrperiode.getErgebnis());
+				Controller.lock(this, ergebnisGUI);
 			}
 		});
 
@@ -136,10 +120,5 @@ public class FahrperiodeGUI extends JFrame implements IPopup {
 
 	public void updateFahrtenListe() {
 		this.listFahrten.setListData(this.fahrperiode.getFahrten().toArray(new Fahrt[0]));
-	}
-
-	@Override
-	public JFrame getParentFrame() {
-		return this.parent;
 	}
 }

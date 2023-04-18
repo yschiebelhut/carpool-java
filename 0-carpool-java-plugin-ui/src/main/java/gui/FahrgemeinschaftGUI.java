@@ -7,24 +7,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 /**
  * @author Yannik Schiebelhut
  */
-public class FahrgemeinschaftGUI extends JFrame implements IPopup {
+public class FahrgemeinschaftGUI extends JFrame {
 
-	private final JFrame parent;
 	private final Controller controller;
 	private final Fahrgemeinschaft fahrgemeinschaft;
 
 	private JList<Fahrperiode> listPerioden;
 	private JScrollPane paneListPerioden;
 
-	public FahrgemeinschaftGUI(JFrame parent, Controller controller, Fahrgemeinschaft fahrgemeinschaft) throws HeadlessException {
+	public FahrgemeinschaftGUI(Controller controller, Fahrgemeinschaft fahrgemeinschaft) throws HeadlessException {
 		super(fahrgemeinschaft.getName());
-		this.parent = parent;
 		this.controller = controller;
 		this.fahrgemeinschaft = fahrgemeinschaft;
 
@@ -56,7 +52,6 @@ public class FahrgemeinschaftGUI extends JFrame implements IPopup {
 		JButton buttonMitglieder = new JButton("Mitglieder verwalten");
 		buttons.add(buttonMitglieder);
 		buttonMitglieder.addActionListener(e -> {
-			// TODO: Mitgliederverwaltung implementieren
 			MitgliederFahrgemeinschaftGUI mitgliederGUI = new MitgliederFahrgemeinschaftGUI(this, this.controller, this.fahrgemeinschaft);
 		});
 
@@ -64,16 +59,7 @@ public class FahrgemeinschaftGUI extends JFrame implements IPopup {
 		buttons.add(buttonNeuePeriode);
 		buttonNeuePeriode.addActionListener(e -> {
 			NeueFahrperiodeGUI neuGUI = new NeueFahrperiodeGUI(this, this.controller, fahrgemeinschaft);
-			neuGUI.addWindowListener(new WindowAdapter() {
-				@Override
-				public void windowClosing(WindowEvent e) {
-					neuGUI.getParentFrame().setEnabled(true);
-					super.windowClosing(e);
-				}
-
-
-			});
-			this.setEnabled(false);
+			Controller.lock(this, neuGUI);
 		});
 
 		this.add(buttons);
@@ -84,20 +70,8 @@ public class FahrgemeinschaftGUI extends JFrame implements IPopup {
 
 
 	private void starteFahrperiodeGUI(Fahrperiode fahrperiode) {
-		FahrperiodeGUI periodeGUI = new FahrperiodeGUI(this, this.controller, fahrperiode);
-		periodeGUI.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				periodeGUI.getParentFrame().setEnabled(true);
-				super.windowClosing(e);
-			}
-		});
-		this.setEnabled(false);
-	}
-
-	@Override
-	public JFrame getParentFrame() {
-		return this.parent;
+		FahrperiodeGUI periodeGUI = new FahrperiodeGUI(this.controller, fahrperiode);
+		Controller.lock(this, periodeGUI);
 	}
 
 	public void update() {

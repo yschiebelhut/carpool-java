@@ -1,11 +1,10 @@
 package gui;
 
 import model.Fahrgemeinschaft;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 /**
  * @author Yannik Schiebelhut
@@ -15,7 +14,7 @@ public class MainGUI extends JFrame {
 	private final Controller controller;
 
 
-	public MainGUI(Controller controller) throws HeadlessException {
+	public MainGUI(@NotNull Controller controller) throws HeadlessException {
 		this.controller = controller;
 		this.setTitle("Fahrgemeinschaftsverwaltung");
 
@@ -27,7 +26,6 @@ public class MainGUI extends JFrame {
 
 		auswahl.add(new JLabel("Fahrgemeinschaft auswählen: "));
 
-//		Fahrgemeinschaft[] datenArray = this.controller.getFahrgemeinschaftRepository().gibAlle()
 		final JComboBox<Fahrgemeinschaft> dropDownMenue = new JComboBox<>();
 		this.controller.getFahrgemeinschaftRepository().gibAlle().forEach(dropDownMenue::addItem);
 		dropDownMenue.setMaximumSize(dropDownMenue.getPreferredSize());
@@ -38,14 +36,8 @@ public class MainGUI extends JFrame {
 		buttonFahrgemeinschaftAuswaehlen.addActionListener(e -> {
 			System.out.println(dropDownMenue.getSelectedItem() + ", " + dropDownMenue.getSelectedIndex());
 			Fahrgemeinschaft ausgewaehlteFahrgemeinschaft = (Fahrgemeinschaft) dropDownMenue.getSelectedItem();
-			FahrgemeinschaftGUI fahrGUI = new FahrgemeinschaftGUI(this, this.controller, ausgewaehlteFahrgemeinschaft);
-			fahrGUI.addWindowListener(new WindowAdapter() {
-				@Override
-				public void windowClosing(WindowEvent e) {
-					fahrGUI.getParentFrame().setEnabled(true);
-				}
-			});
-			this.setEnabled(false);
+			FahrgemeinschaftGUI fahrGUI = new FahrgemeinschaftGUI(this.controller, ausgewaehlteFahrgemeinschaft);
+			Controller.lock(this, fahrGUI);
 		});
 		auswahl.add(buttonFahrgemeinschaftAuswaehlen);
 
@@ -65,7 +57,7 @@ public class MainGUI extends JFrame {
 		this.add(mainContainer);
 		this.setMinimumSize(new Dimension(500, 300));
 		this.pack();
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // TODO: save changes
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
 }

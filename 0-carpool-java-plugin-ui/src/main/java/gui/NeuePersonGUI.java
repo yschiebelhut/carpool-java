@@ -12,7 +12,7 @@ import java.awt.event.WindowEvent;
 /**
  * @author Yannik Schiebelhut
  */
-public class NeuePersonGUI extends JFrame implements IPopup {
+public class NeuePersonGUI extends JFrame {
 	private final MitgliederFahrgemeinschaftGUI parent;
 	private final Controller controller;
 
@@ -75,10 +75,5 @@ public class NeuePersonGUI extends JFrame implements IPopup {
 
 		this.pack();
 		this.setVisible(true);
-	}
-
-	@Override
-	public JFrame getParentFrame() {
-		return this.parent;
 	}
 }

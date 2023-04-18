@@ -11,12 +11,10 @@ import java.util.UUID;
 /**
  * @author Yannik Schiebelhut
  */
-public class ErgebnisGUI extends JFrame implements IPopup {
-	private final JFrame parent;
+public class ErgebnisGUI extends JFrame {
 	private final Controller controller;
 
-	public ErgebnisGUI(JFrame parent, Controller controller, Map<UUID, Geldbetrag> ergebnis) throws HeadlessException {
-		this.parent = parent;
+	public ErgebnisGUI(Controller controller, Map<UUID, Geldbetrag> ergebnis) throws HeadlessException {
 		this.controller = controller;
 
 		this.setTitle("Ergebnis");
@@ -37,10 +35,5 @@ public class ErgebnisGUI extends JFrame implements IPopup {
 		this.setMinimumSize(new Dimension(150, 0));
 		this.pack();
 		this.setVisible(true);
-	}
-
-	@Override
-	public JFrame getParentFrame() {
-		return this.parent;
 	}
 }
