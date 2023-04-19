@@ -24,23 +24,25 @@ In der Folge enthält diese Methode mehrere ineinander geschachtelte Schleifenau
 Auch diese Methode ist kaum lesbar und bedarf dringend einer Verbesserung.
 
 \section{Refactorings anwenden}
-\begin{itemize}
-    \item Extract Method
-    \item Rename Method
-    \item Replace Temp with Query
-    \item Replace Conditional with Polymorphism
-    \item Replace Error Code with Exception
-    \item Replace Inheritance with Delegation
-\end{itemize}
+Um den erwähnten Code Smells entgegenzuwirken, werden verschiedene Refactorings angewendet.
+Das wichigste hierbei ist \emph{Extract Method}, da sich mit diesem Refaktoring die meisten Problemstellen schon deutlich verbessern lassen.
 
+Die ersten Refactorings werden an der Klasse \href{https://github.com/yschiebelhut/carpool-java/blob/93eebf7f30e394dcf7abcb044328bf6dbaf1823e/0-carpool-java-integration/src/main/java/telegram/Telegram.java}{\code{Telegram}} vorgenommen.
+Bislang enthielt die Klasse lediglich die Methode \enquote{send}.
+Aus dieser wird nun zunächst die Methode \code{telegramToken()} extrahiert, welche das benötigte Telegram Token aus der Umgebungsvariable ausliest.
+Anschließend wird für die beiden Deklaration der beiden Variablen \code{String uri} und \code{HttpRequest request} jeweils das Refactoring \emph{Replace Temp with Query} durchgeführt.
+Dabei wird für beide Aufrufe jeweils eine eigene Methode erstellt, welche anschließend anstelle der deklarierten Variable verwendet wird.
+Durch die durchgeführten Refactorings konnte die ursprüngliche Methode erfolgreich auf vier einzelne Methoden aufgeteilt werden, die jeweils deutlich besser verständlich sind.
 
-Telegram: Long Method > Method extraction, Replace Temp with Query
+Als zweites Code Smell wird die Duplizierung der Popup-Sperren im GUI-Plugin angegangen.
+Da die sich wiederholende Funktionalität sehr generisch ist, ist hier der einfachste Weg, die entsprechende Funktionalität in eine weitere Klasse auszulagern (Method Extraction in andere Klasse).
+Hierfür empfiehlt es sich, dem Controller eine statische Methode hinzuzufügen, die die entsprechende Funktionalität übernimmt.
+Dazu wird im Controller die \href{https://github.com/yschiebelhut/carpool-java/blob/93eebf7f30e394dcf7abcb044328bf6dbaf1823e/0-carpool-java-plugin-ui/src/main/java/gui/Controller.java#L32}{neue Methode} mit zwei \code{JFrame}s als Parameter (Parent und Popup) definiert.
+Für den Methodenkörper genügt es, eine der vorhandenen Sperrroutinen leicht hinsichtlich der Methodenparameter zu generalisieren.
+Anschließend können sämliche Duplikationen durch einen Aufruf der statischen Methode ersetzt werden.
+Hierdurch konnten Duplikationen in vier Klassen entfernt werden (MainGUI, FahrgemeinschaftGUI, FahrperiodeGUI und MitgliederFahrgemeinschaftGUI).
+Weiterhin wurde durch das Refactoring ein Interface obsolet, welches bislang für die Bereitstellung der Funktionalität unterstützend wirkte.
 
-ErgebnisGUI: Long Method
-FahrgemeinschaftGUI: Long Method
-
-Duplicated Code (PopUp):
-MainGUI
-FahrgemeinschaftGUI
-FahrperiodeGUI
-MitgleiderFahrgemeinschaftGUI
+Ein letztes Refactoring wurde im Domain-Code für die Klasse \href{https://github.com/yschiebelhut/carpool-java/blob/39b9b0aa5415a201103c65226606de2d73cf6ab0/3-carpool-java-domain/src/main/java/model/Fahrperiode.java#L86}{\code{Fahrperiode}} durchgeführt.
+Die Methode \code{getErgebnis()} konnte Mittels \emph{Method Extraction} deutlich simpler und übersichtlicher gestaltet werden, indem die Berechnung der einzelnen Fahrten ausgelagert wird.
+Weiterhin wurde ein weiteres \emph{Replace Temp with Query} Refactoring durchgeführt, um die Berechnung des Fahrtbeitrages je Mitfahrer in eine weitere eigenen Methode (\code{betragProMitfahrer(Fahrt)}) auszulagern, welche dann anstelle der temporären Variable verwendet wird.
