@@ -59,7 +59,7 @@ In diesem Plugin werden die PayPal-Link-Generierung sowie die Interaktion mit Te
 Zwar gehört gemäß Beschreibung des Domainen-Experten das Senden von PayPal-Links via Telegram als elementarer Bestandteil zum Programm, weshalb theoretisch auch für eine Platzierung in der Domain-Schicht argumentiert werden könnte, jedoch bezieht sich diese Aufgabe auf Schnittstellen von externen Systemen, von denen per se schon ein häufiger Wandel zu erwarten ist, weshalb diese Klassen auf jeden Fall in der Plugin-Schicht implementiert werden sollten.
 
 \section{Dependency Inversion}
-Als zentrale Regel der Clean Architecture besagt die Dependency Rule, dass Abhängigkeiten nur von außen nach innen zeigen dürfen.
+Als zentrale Regel der Clean Architecture besagt die \emph{Dependency Rule}, dass Abhängigkeiten nur von außen nach innen zeigen dürfen.
 Bis auf eine Ausnahme ist diese Regel nach der Umstrukturierung bereits erfüllt.
 
 Die Klasse \code{FahrperiodenAbschliessService} aus dem Modul \href{https://github.com/yschiebelhut/carpool-java/tree/6432a12f748682770324464219113f8df8e90454/2-carpool-java-application}{\code{2-carpool-java-application}} hat jedoch eine Abhängigkeit auf die Klassen \code{Telegram} und \code{PayPalLinkBuilder} aus der Schicht \href{https://github.com/yschiebelhut/carpool-java/tree/6432a12f748682770324464219113f8df8e90454/0-carpool-java-integration}{\code{0-carpool-java-integration}}.
