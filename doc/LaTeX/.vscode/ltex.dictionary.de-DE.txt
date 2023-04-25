@@ -1,0 +1,16 @@
+Ubiquitous
+Language
+Entities
+Identifier
+UUID
+Objects
+Strasse
+Waehrung
+Repositories
+Architecture
+Abstraction
+domainenübergreifendes
+Application
+Application-Schicht
+UUIDs
+Dependency

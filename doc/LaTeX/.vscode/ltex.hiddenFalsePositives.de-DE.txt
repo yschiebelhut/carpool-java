@@ -1,0 +1,7 @@
+{"rule":"GERMAN_SPELLER_RULE","sentence":"^\\QDie Datenhaltung erfolgt lokal im JSON-Format mittels der externen GSON-Bibliothek.\\E$"}
+{"rule":"GERMAN_SPELLER_RULE","sentence":"^\\QDas vorliegende Dokument enthält deshalb keine Dokumentation zum Thema Programming Principles.\\E$"}
+{"rule":"GERMAN_SPELLER_RULE","sentence":"^\\QDomain Driven Design.\\E$"}
+{"rule":"GERMAN_SPELLER_RULE","sentence":"^\\QAnalyse der Ubiquitous Language.\\E$"}
+{"rule":"GERMAN_SPELLER_RULE","sentence":"^\\QDas Programm wird im Rahmen einer Fahrgemeinschaft einer deutschsprachigen Gruppe von Informatikstudenten erstellt, weshalb Deutsch als Sprache für die Ubiquitous Language gewählt wird.\\E$"}
+{"rule":"GERMAN_SPELLER_RULE","sentence":"^\\QDeshalb werden Getter- und Setter-Methoden weiterhin mit englischen Vorsilben konstruiert, um den Quellcode nah an Programmiersprachweiten Standards zu halten.\\E$"}
+{"rule":"GERMAN_SPELLER_RULE","sentence":"^\\QDistanz Unterklassen von Streckeneinheit Fahrt Geldbetrag Unterklassen von Waehrung Adresse Strasse Ort\\E$"}

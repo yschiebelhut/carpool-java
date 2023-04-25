@@ -1,38 +1,36 @@
 \chapter{Clean Architecture}
-In diesem Kapitel wird die Software so in verschiedene Teilmodule restrukturiert, dass sie den Grundsätzen der in der Vorlesung vermittelten Clean Architecture genügt.
+In diesem Kapitel wird die Software so in verschiedene Teilmodule restrukturiert, dass sie den Grundsätzen der in der Vorlesung vermittelten \emph{Clean Architecture} genügt.
 
 \section{Unterteilung in Schichten}
 \subsection{Schicht 4: Abstraction Code}
-\emph{Abstraction Code} stellt domänenübergreifendes Wissen dar (wie etwa mathematische Konzepte, grundlegende Algorithmen oder Datenstrukturen).
+\emph{Abstraction Code} stellt domainenübergreifendes Wissen dar (wie etwa mathematische Konzepte, grundlegende Algorithmen oder Datenstrukturen).
 Im Kontext der vorliegenden Software wird diese Schicht nicht benötigt.
 Mathematische Konzepte, die zur Berechnung der Fahrtkosten notwendig sind, sowie alle in der Software verwendeten Datenstrukturen, finden sich bereits in den Java-Bibliotheken.
 
 \subsection{Schicht 3: Domain}
 In dieser Schicht wird der zentrale Domain-Code untergebracht.
-In diesem Falle sind dies die in \autoref{fig:domainmodel} gezeigten und im vorherigen Kapitel beschriebenen Entitäten und Value Objects (implementiert im Modul \code{3-carpool-java-domain}).
-Sie gehören zur elementaren Business Logik der Domaine und sollten sich möglichst selten, in der Regel eigentlich nie ändern.
-Lediglich das in der Abbildung dargestellte \emph{Integration} Package wird in die Schicht 0 verschoben.
-Zwar gehört gemäß Beschreibung des Domainen-Experten das Senden von PayPal-Links via Telegram als elementarer Bestandteil zum Programm, jedoch sollte die konkrete Implementierung der Interaktion mit diesen Diensten nicht als Teil des Domainen-Codes erfolgen, da sich diese logisch abgrenzt und Änderungen im Laufe der Zeit sehr wahrscheinlich sind.
+In diesem Falle sind dies die in \autoref{fig:domainmodel} gezeigten und im vorherigen Kapitel beschriebenen Entitäten und Value Objects (implementiert im Modul \href{https://github.com/yschiebelhut/carpool-java/tree/b572f3aabe01f91462d00f1469b7c1da3266873b/3-carpool-java-domain}{\code{3-carpool-java-domain}}).
+Sie gehören zur elementaren Business-Logik der Domaine und sollten sich möglichst selten, in der Regel eigentlich nie ändern.
 
 \subsection{Schicht 2: Application}
 Die Application-Schicht ist gemäß der Vorlesung für Aggregat-übergreifendes Verhalten verantwortlich.
 In Falle der vorliegenden Software liegt dieser Anwendungsfall beim Versenden der PayPal-Links über Telegram vor.
 Hierbei werden die Rechnungsdaten einer Fahrperiode ausgelesen.
 Diese enthalten jedoch nur ein Mapping einer UUID zu einem Geldbetrag.
-Zum Versenden der Nachrichten müssen diese UUIDs noch zu Personen aufgelöst werden, aus welchen anschließend die Telegram-Chat-ID extrahiert werden kann.
-Umgesetzt ist diese Schicht im Modul \code{2-carpool-java-application}.
+Zum Versenden der Nachrichten müssen diese UUIDs noch zu Personen-Objekten aufgelöst werden, aus welchen anschließend die Telegram-Chat-ID ausgelesen werden kann.
+Umgesetzt ist diese Schicht im Modul \href{https://github.com/yschiebelhut/carpool-java/tree/b572f3aabe01f91462d00f1469b7c1da3266873b/2-carpool-java-application}{\code{2-carpool-java-application}}.
 
 \subsection{Schicht 1: Adapters}
 Die Adapters-Schicht soll in der Clean Architecture dazu dienen, Aufrufe und Daten der Plugin-Schicht an die innere Schicht zu vermitteln.
 Hier finden zum Beispiel Aufgaben wie Formatkonvertierungen und das Erstellen von Render-Modellen statt.
-Da jedoch in der Plugin-Schicht dieser Anwendung keine komplexe Umsetzungslogik erfolgt und ein Erstellen dieser Schicht keinen unmittelbaren Wert besitzt (wie auf Folie 49 der Clean Architecture beschrieben), wird auf das Erstellen dieser Schicht verzichtet.
-Es ist allerdings darauf hinzuweisen, dass ein Erstellen dieser Schicht theoretisch empfehlenswert wäre, vor allem in der Hinsicht, dass die aktuell mit Java-Swing erstellte Benutzeroberfläche nicht gerade schön ist und gegebenenfalls zukünftig durch eine neuere und bessere Oberfläche ersetzt werden könnte.
-Eine solche Oberfläche kann ohne die Adapters-Schicht nicht auf visuelle Verarbeitungsroutinen der aktuellen GUI zugreifen und müssten neu angefertigt werden, was wiederum mit einem Mehraufwand verknüpft wäre.
+Da jedoch in der Plugin-Schicht dieser Anwendung keine komplexe Umsetzungslogik erfolgt und ein Erstellen dieser Schicht keinen unmittelbaren Wert besitzt (wie auf Folie 49 der Clean-Architecture-Vorlesung beschrieben), wird auf das Umsetzen dieser Schicht verzichtet.
+Es ist allerdings darauf hinzuweisen, dass ein Erstellen dieser Schicht bei einer geplanten Weiterentwicklung theoretisch empfehlenswert wäre, vor allem in der Hinsicht, dass die aktuelle, mit Java-Swing erstellte Benutzeroberfläche nicht gerade schön ist und gegebenenfalls zukünftig durch eine neuere und bessere Oberfläche ersetzt werden könnte.
+Eine solche Oberfläche kann ohne die Adapters-Schicht nicht auf visuelle Verarbeitungsroutinen der aktuellen GUI zugreifen und müssten neu angefertigt werden, was wiederum mit einem deutlichen Mehraufwand verknüpft wäre und auch neue Fehlerquellen eröffnen würde.
 
 \subsection{Schicht 0: Plugins}
 Die Plugin-Schicht stellt die äußerste Schicht der Anwendung dar.
 Code in dieser Schicht ist am kurzlebigsten.
-Hier werden für die aktuelle Anwendung 4 Module erstellt: \code{0-carpool-java-plugins-main}, \code{0-carpool-java-plugins-ui}, \code{0-carpool-java-plugins-json} und \code{0-carpool-java-plugins-integration}.
+Hier werden für die aktuelle Anwendung vier Module erstellt: \href{https://github.com/yschiebelhut/carpool-java/tree/b572f3aabe01f91462d00f1469b7c1da3266873b/0-carpool-java-plugin-main}{\code{0-carpool-java-plugins-main}}, \href{https://github.com/yschiebelhut/carpool-java/tree/b572f3aabe01f91462d00f1469b7c1da3266873b/0-carpool-java-plugin-ui}{\code{0-carpool-java-plugins-ui}}, \href{https://github.com/yschiebelhut/carpool-java/tree/b572f3aabe01f91462d00f1469b7c1da3266873b/0-carpool-java-plugin-json}{\code{0-carpool-java-plugins-json}} und \href{https://github.com/yschiebelhut/carpool-java/tree/b572f3aabe01f91462d00f1469b7c1da3266873b/0-carpool-java-integration}{\code{0-carpool-java-integration}}.
 
 \subsubsection{Main-Plugin}
 Dieses Plugin enthält die Main-Methode und somit den Einstiegspunkt in die Applikation.
@@ -48,31 +46,33 @@ Da die Benutzeroberfläche Pure Fabrication darstellt und häufige Änderungen u
 \subsubsection{JSON-Plugin}
 Die Software setzt aktuell auf eine JSON-basierte Datenhaltung.
 Zu diesem Zwecke wird die externe GSON-Library verwendet.
-Weil eine externe Library eingebunden wird und die Form der Datenhaltung sehr einfach veränderlich sein sollte, wird die Datenhaltung als Plugin implementiert.
+Weil eine externe Library eingebunden wird und die Form der Datenhaltung sehr einfach veränderlich sein sollte, wird die Datenhaltung als Modul in der Plugin-Schicht implementiert.
 Dabei werden zwei Repository-Klassen erstellt, die die in der Domain-Schicht definierten Interfaces implementieren.
-Für das Speichern gewisser Datentypen wie beispielsweise \code{LocalDate} aus der Java-Standardlibrary werden von GSON Typadapter benötigt.
-Theoretisch wären diese der Adapters-Schicht zuzuordnen.
+Für das Speichern gewisser Datentypen wie beispielsweise \code{LocalDate} aus der Java-Standardlibrary benötigt GSON sogenannte Typadapter.
+Theoretisch wären solche Bausteine der Adapters-Schicht zuzuordnen.
 Allerdings sind die enthaltenen Mappings speziell auf die Verwendung mit GSON zuzuschneiden.
 Weiterhin müssen die Adapter Interfaces implementieren, die von der Library definiert werden.
 Aus diesen Gründen ist es nicht sinnvoll, die Typadapter in die Adapter-Schicht auszulagern.
 
 \subsubsection{Integration-Plugin}
 In diesem Plugin werden die PayPal-Link-Generierung sowie die Interaktion mit Telegram implementiert.
-Beides bezieht sich auf Schnittstellen von externen Systemen, von denen perse schon ein häufiger Wandel zu erwarten ist, weshalb diese Klassen auf jeden Fall in der Pluin-Schicht zu implementieren sind.
+Zwar gehört gemäß Beschreibung des Domainen-Experten das Senden von PayPal-Links via Telegram als elementarer Bestandteil zum Programm, weshalb theoretisch auch für eine Platzierung in der Domain-Schicht argumentiert werden könnte, jedoch bezieht sich diese Aufgabe auf Schnittstellen von externen Systemen, von denen per se schon ein häufiger Wandel zu erwarten ist, weshalb diese Klassen auf jeden Fall in der Plugin-Schicht implementiert werden sollten.
 
 \section{Dependency Inversion}
-Als zentrale Regel der Clean Architecture (Dependency Rule) sollten Abhängigkeiten nur von außen nach innen zeigen.
+Als zentrale Regel der Clean Architecture besagt die Dependency Rule, dass Abhängigkeiten nur von außen nach innen zeigen dürfen.
 Bis auf eine Ausnahme ist diese Regel nach der Umstrukturierung bereits erfüllt.
 
-Die Klasse \code{FahrperiodenAbschliessService} aus \code{2-carpool-java-application} hat jedoch eine Abhängigkeit auf die Klassen \code{Telegram} und \code{PayPalLinkBuilder} aus der Schicht \code{0-carpool-java-plugins-integration}.
+Die Klasse \code{FahrperiodenAbschliessService} aus dem Modul \href{https://github.com/yschiebelhut/carpool-java/tree/6432a12f748682770324464219113f8df8e90454/2-carpool-java-application}{\code{2-carpool-java-application}} hat jedoch eine Abhängigkeit auf die Klassen \code{Telegram} und \code{PayPalLinkBuilder} aus der Schicht \href{https://github.com/yschiebelhut/carpool-java/tree/6432a12f748682770324464219113f8df8e90454/0-carpool-java-integration}{\code{0-carpool-java-integration}}.
 Um diese Abhängigkeit zu beseitigen wird eine Dependency Inversion durchgeführt.
 
-Hierfür werden zunächst in \code{2-carpool-java-application} zwei Interfaces (\code{TelegramClient} und \code{IPayPalLinkBuilder}) definiert.
+Hierfür werden zunächst im Modul \code{2-carpool-java-application} zwei Interfaces (\code{TelegramClient} und \code{IPayPalLinkBuilder}) definiert.
 Diese Interfaces deklarieren die Methoden der beiden Klassen aus Schicht 0.
-Anschließend wird eine Abhängigkeit definiert, die vom Plugin zur Applikationsschicht zeigt.
-Anschließend wird die Implementierung der beiden betroffenen Klassen in Schicht 0 so verändert, dass das jeweils korrespondierte Interface implementiert wird.
+Anschließend wird eine Abhängigkeit definiert, die vom Integrations-Plugin zur Applikationsschicht zeigt.
+Danach wird die Implementierung der beiden betroffenen Klassen in Schicht 0 so verändert, dass das jeweils korrespondierte Interface implementiert wird.
 Weiterhin muss der \code{FahrperiodenAbschliessService} so modifiziert werden, dass die Abhängigkeiten per Dependency Injection übergeben werden.
 Der Konstruktoraufruf ist entsprechend anzupassen.
+
+Die Dependency Inversion wurde in \href{https://github.com/yschiebelhut/carpool-java/commit/de8af27645d16a68f174a517454a6353925ae821}{diesem Commit} durchgeführt.
 
 (Es ist darauf hinzuweisen, dass dadurch im vorliegenden Fall eine neue Abhängigkeit des GUI-Plugins auf das Integrations-Plugin entsteht.
 Theoretisch wäre es optimal, auch diese zu vermeiden.

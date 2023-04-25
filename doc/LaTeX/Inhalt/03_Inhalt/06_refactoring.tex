@@ -1,21 +1,21 @@
 \chapter{Refactoring}
 
 \section{Code Smells identifizieren}
-Prägnante Fälle von Shotgun Surgery und Large Classes sind im Code des Fahrtkostenrechners praktisch nicht vorhanden, was auch darin begründet liegt, dass das Projekt relativ klein ist.
-Switch Statements wurden in der Codebasis nicht verwendet und mit Kommentaren war der bearbeitende Student auch sparsam.
-Nichtsdestotrotz finden sich im Code-Substrat einige Code Smells, welche größtenteils aus Duplicated Code und Long Methods bestehen.
+Prägnante Fälle von \emph{Shotgun Surgery} und \emph{Large Classes} sind im Code des Fahrtkostenrechners praktisch nicht vorhanden, was auch darin begründet liegt, dass das Projekt relativ klein ist.
+\emph{Switch Statements} wurden in der Codebasis nicht verwendet und mit Kommentaren war der bearbeitende Student auch sparsam.
+Nichtsdestotrotz finden sich im Code-Substrat einige Code Smells, welche größtenteils aus \emph{Duplicated Code} und \emph{Long Methods} bestehen.
 
-Insbesondere im GUI Plugin finden sich sehr viele \emph{Code-Dopplungen}.
+Insbesondere im \href{https://github.com/yschiebelhut/carpool-java/tree/6a206569e676ad1bf55d68ba3e64408bae83e73f/0-carpool-java-plugin-ui}{GUI-Plugin} finden sich sehr viele \emph{Code-Dopplungen}.
 Die wohl prominenteste dieser Dopplungen entsteht durch die \href{https://github.com/yschiebelhut/carpool-java/blob/6a206569e676ad1bf55d68ba3e64408bae83e73f/0-carpool-java-plugin-ui/src/main/java/gui/MainGUI.java#L42}{Erzeugung von Popups}.
-Diese wurde so umgesetzt, dass das GUI-Fenster, aus dem das Popup hervorgeht, gesperrt wird, wenn das Popup gestartet wird.
-Wird das Popup geschlossen, so wird auch das Ursprungsfenster wieder freigegeben.
+Diese wurde so umgesetzt, dass das GUI-Fenster, aus dem das Popup hervorgeht, gesperrt wird, wenn das Popup geöffnet wird.
+Wird das Popup geschlossen, so wird das Ursprungsfenster wieder freigegeben.
 
 \emph{Long Methods} finden sich praktisch in allen GUI-Klassen abgesehen vom Controller.
 Alle GUI-Klassen folgen grob demselben schematischen Aufbau, bei dem sämtliche Elemente im Konstruktur der jeweiligen Ansicht aufgebaut werden.
-Das macht zum einen den Konstruktor sehr unübersichtlich, andererseits sind die Ansichten auch sehr unflexible gegenüber nachträglichen Änderungen.
+Das macht zum einen den Konstruktor sehr unübersichtlich, andererseits sind die Ansichten auch sehr unflexible gegenüber Änderungen zur Laufzeit.
 Das Anzeigen neuer Elemente oder das Aktualisieren der angezeigten Daten ist meist nur über einen erneuten Aufruf des Konstruktors möglich.
 
-Auch in der Klasse \code{Telegram} im Integrations-Plugin findet sich ein Code-Smell, der sich trotz kompakter Erscheinung der Methode am ehesten als \emph{Long Method} einordnen lässt.
+Auch in der Klasse \href{https://github.com/yschiebelhut/carpool-java/blob/fcc3bbaff5e8908a5f768b7fd3e79f1d2285acb6/0-carpool-java-integration/src/main/java/telegram/Telegram.java}{\code{Telegram}} im Integrations-Plugin findet sich ein Code-Smell, der sich trotz kompakter Erscheinung der Methode am ehesten als \emph{Long Method} einordnen lässt.
 Hauptproblem ist hier, dass sehr viele verschiedene Aktionen ausgeführt werden, die thematisch nicht zusammenhängen, was die Lesbarkeit stark beeinträchtigt.
 
 Eine weitere lange und unübersichtliche Methode findet sich in der Klasse \href{https://github.com/yschiebelhut/carpool-java/blob/379784c1ffe99a3f4fc15f393e12661479e6a4bf/3-carpool-java-domain/src/main/java/model/Fahrperiode.java#L85}{\code{Fahrperiode}}.
@@ -29,20 +29,20 @@ Das wichigste hierbei ist \emph{Extract Method}, da sich mit diesem Refaktoring 
 
 Die ersten Refactorings werden an der Klasse \href{https://github.com/yschiebelhut/carpool-java/blob/93eebf7f30e394dcf7abcb044328bf6dbaf1823e/0-carpool-java-integration/src/main/java/telegram/Telegram.java}{\code{Telegram}} vorgenommen.
 Bislang enthielt die Klasse lediglich die Methode \enquote{send}.
-Aus dieser wird nun zunächst die Methode \code{telegramToken()} extrahiert, welche das benötigte Telegram Token aus der Umgebungsvariable ausliest.
-Anschließend wird für die beiden Deklaration der beiden Variablen \code{String uri} und \code{HttpRequest request} jeweils das Refactoring \emph{Replace Temp with Query} durchgeführt.
+Aus dieser wird nun zunächst die \emph{Methode \code{telegramToken()} extrahiert}, welche das benötigte Telegram Token aus der Umgebungsvariable ausliest.
+Anschließend wird für die Deklaration der beiden Variablen \code{String uri} und \code{HttpRequest request} jeweils das Refactoring \emph{Replace Temp with Query} durchgeführt.
 Dabei wird für beide Aufrufe jeweils eine eigene Methode erstellt, welche anschließend anstelle der deklarierten Variable verwendet wird.
 Durch die durchgeführten Refactorings konnte die ursprüngliche Methode erfolgreich auf vier einzelne Methoden aufgeteilt werden, die jeweils deutlich besser verständlich sind.
 
-Als zweites Code Smell wird die Duplizierung der Popup-Sperren im GUI-Plugin angegangen.
-Da die sich wiederholende Funktionalität sehr generisch ist, ist hier der einfachste Weg, die entsprechende Funktionalität in eine weitere Klasse auszulagern (Method Extraction in andere Klasse).
+Als zweiter Code Smell wird die Duplizierung der Popup-Sperren im GUI-Plugin angegangen.
+Da die sich wiederholende Funktionalität sehr generisch ist, ist hier der einfachste Weg, die entsprechende Funktionalität in eine weitere Klasse auszulagern (\emph{Method Extraction} in andere Klasse).
 Hierfür empfiehlt es sich, dem Controller eine statische Methode hinzuzufügen, die die entsprechende Funktionalität übernimmt.
-Dazu wird im Controller die \href{https://github.com/yschiebelhut/carpool-java/blob/93eebf7f30e394dcf7abcb044328bf6dbaf1823e/0-carpool-java-plugin-ui/src/main/java/gui/Controller.java#L32}{neue Methode} mit zwei \code{JFrame}s als Parameter (Parent und Popup) definiert.
-Für den Methodenkörper genügt es, eine der vorhandenen Sperrroutinen leicht hinsichtlich der Methodenparameter zu generalisieren.
+Dazu wird im Controller die \href{https://github.com/yschiebelhut/carpool-java/blob/93eebf7f30e394dcf7abcb044328bf6dbaf1823e/0-carpool-java-plugin-ui/src/main/java/gui/Controller.java#L32}{neue Methode} \enquote{lock} mit zwei \code{JFrame}s als Parameter (Parent und Popup) definiert.
+Für den Methodenkörper genügt es, eine der vorhandenen Sperrroutinen hinsichtlich der Methodenparameter zu generalisieren.
 Anschließend können sämliche Duplikationen durch einen Aufruf der statischen Methode ersetzt werden.
-Hierdurch konnten Duplikationen in vier Klassen entfernt werden (MainGUI, FahrgemeinschaftGUI, FahrperiodeGUI und MitgliederFahrgemeinschaftGUI).
+Hierdurch konnten Duplikationen in vier Klassen entfernt werden (\code{MainGUI}, \code{FahrgemeinschaftGUI}, \code{FahrperiodeGUI} und \code{MitgliederFahrgemeinschaftGUI}).
 Weiterhin wurde durch das Refactoring ein Interface obsolet, welches bislang für die Bereitstellung der Funktionalität unterstützend wirkte.
 
 Ein letztes Refactoring wurde im Domain-Code für die Klasse \href{https://github.com/yschiebelhut/carpool-java/blob/39b9b0aa5415a201103c65226606de2d73cf6ab0/3-carpool-java-domain/src/main/java/model/Fahrperiode.java#L86}{\code{Fahrperiode}} durchgeführt.
 Die Methode \code{getErgebnis()} konnte Mittels \emph{Method Extraction} deutlich simpler und übersichtlicher gestaltet werden, indem die Berechnung der einzelnen Fahrten ausgelagert wird.
-Weiterhin wurde ein weiteres \emph{Replace Temp with Query} Refactoring durchgeführt, um die Berechnung des Fahrtbeitrages je Mitfahrer in eine weitere eigenen Methode (\code{betragProMitfahrer(Fahrt)}) auszulagern, welche dann anstelle der temporären Variable verwendet wird.
+Weiterhin wurde ein weiteres \emph{Replace Temp with Query} Refactoring durchgeführt, um die Berechnung des Fahrtbeitrages je Mitfahrer in eine weitere, eigenen Methode (\code{betragProMitfahrer(Fahrt)}) auszulagern, welche dann anstelle der temporären Variable verwendet wird.
